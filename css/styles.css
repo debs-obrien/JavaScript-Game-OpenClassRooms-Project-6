@@ -17,31 +17,37 @@ li{
     box-sizing: border-box;
 }
 
-
+#board-game .blackBelt,#board-game .blueBelt,#board-game .redBelt,
+#board-game .greenBelt,#board-game .yellowBelt,
+#board-game .whiteBelt, #board-game .obstacle,
+#board-game .player1, #board-game .player2{
+    background-repeat: no-repeat;
+    background-position: center;
+}
 #board-game .obstacle{
-    background: #ccc;
+    background-image:url('../src/Stone.png');
 }
 #board-game .blackBelt{
-    background: black;
+    background-image:url('../src/Black_Ninja_Belt_icon.png');
 }
 #board-game .redBelt{
-    background: red;
+    background-image:url('../src/Red_Ninja_Belt_icon.png');
 }
 #board-game .blueBelt{
-    background: blue;
+    background-image:url('../src/Blue_Ninja_Belt_icon.png');
 }
 #board-game .greenBelt{
-    background: green;
+    background-image:url('../src/Green_Ninja_Belt_icon.png');
 }
 #board-game .yellowBelt{
-    background-image: url('/src/Yellow_Ninja_Belt_icon.png');
+    background-image:url('../src/Yellow_Ninja_Belt_icon.png');
 }
 #board-game .seminar{
-    background: orange;
+    //background-image:url('../src/Yellow_Ninja_Belt_icon.png');
 }
 #board-game .player1{
-    background: purple;
+    background-image:url('../src/player1.png');
 }
 #board-game .player2{
-    background: brown;
+    background-image:url('../src/player2.png');
 }
