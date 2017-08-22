@@ -1,0 +1,47 @@
+li{
+    list-style-type:none;
+}
+#board-game {
+    width: 800px;
+    margin: 3em auto 0;
+}
+#board-game .box {
+    background: #EFEFEF;
+    border-radius: 4px;
+    width: 75px;
+    height: 75px;
+    float: left;
+    margin-right: 1px;
+    margin-bottom: 1px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+
+#board-game .obstacle{
+    background: #ccc;
+}
+#board-game .blackBelt{
+    background: black;
+}
+#board-game .redBelt{
+    background: red;
+}
+#board-game .blueBelt{
+    background: blue;
+}
+#board-game .greenBelt{
+    background: green;
+}
+#board-game .yellowBelt{
+    background-image: url('/src/Yellow_Ninja_Belt_icon.png');
+}
+#board-game .seminar{
+    background: orange;
+}
+#board-game .player1{
+    background: purple;
+}
+#board-game .player2{
+    background: brown;
+}
