@@ -42,6 +42,9 @@ li{
 #board-game .yellowBelt{
     background-image:url('../src/Yellow_Ninja_Belt_icon.png');
 }
+#board-game .whiteBelt{
+    background-image:url('../src/White_Ninja_Belt_icon.png');
+}
 #board-game .seminar{
     //background-image:url('../src/Yellow_Ninja_Belt_icon.png');
 }
