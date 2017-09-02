@@ -159,6 +159,10 @@ const getPosition = (itemClass) =>{
     return currentPosition;
 };
 
+function orthoToCard(ortho) {
+    return ortho.y * 10 + ortho.x + 1;
+}
+
 
 let playerPosition = getPosition('.player1');
 let oldPos = getXYPosition(playerPosition);
@@ -166,30 +170,29 @@ let oldPos = getXYPosition(playerPosition);
 $('.box').on('click', function (e) {
     let sqClicked = $(this).attr('boxID');
     let newPos = getXYPosition(sqClicked);
-    if(!$(this).hasClass('obstacle')){
-        if(newPos.y === oldPos.y && newPos.x <= oldPos.x + 3 && newPos.x >= oldPos.x - 3){
 
-            let newPosless1 = newPos.x -1;
-            let newSquare = newPos.y *10 + newPosless1;
-            console.log(newSquare);
-            let check = $('.box[boxID = '+ newSquare +']');
-            console.log(check.attr('class'));
-            if(check.hasClass('.obstacle')){//if has class obstacle
-                return
-            }
-
-            if($(this).hasClass(".obstacle")){
-                return;
-            }
-            oldPos = newPos;
-            $('.player1').removeClass('player1');
-            $(this).addClass( "player1" );
-        }else if(newPos.x === oldPos.x && newPos.y <= oldPos.y + 3 && newPos.y >= oldPos.y - 3){
-            oldPos = newPos;
-            $('.player1').removeClass('player1');
-            $(this).addClass( "player1" );
+    for(let i=Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++){
+        let num = oldPos.y * 10 + i;
+        if($('.box[boxID = '+ num +']').hasClass('obstacle')){
+            return;
         }
     }
+    for(let i=Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++){
+        let num = i * 10 + oldPos.x;
+        if($('.box[boxID = '+ num +']').hasClass('obstacle')){
+            return;
+        }
+    }
+    if(newPos.y === oldPos.y && newPos.x <= oldPos.x + 3 && newPos.x >= oldPos.x - 3){
+        oldPos = newPos;
+        $('.player1').removeClass('player1');
+        $(this).addClass( "player1" );
+    }else if(newPos.x === oldPos.x && newPos.y <= oldPos.y + 3 && newPos.y >= oldPos.y - 3){
+        oldPos = newPos;
+        $('.player1').removeClass('player1');
+        $(this).addClass( "player1" );
+    }
+    
 
 });
 const isEmpty= ()=>{
