@@ -200,139 +200,45 @@ $('.box').on('click', function (e) {
         }
     }
 
-    function changeWeapon(num, player, belt){
-        $('.box[boxID = '+ num +']').removeClass(belt).addClass(player.weapon);
-        player.weapon = belt;
+    function changeWeapon(num, belt){
+        if(player1Active) {
+            $('.box[boxID = ' + num + ']').removeClass(belt).addClass(player1.weapon);
+            player1.weapon = belt;
+        }else{
+            $('.box[boxID = '+ num +']').removeClass(belt).addClass(player2.weapon);
+            player2.weapon = belt;
+        }
+    }
+    function checkWeapon(num){
+        if($('.box[boxID = '+ num +']').hasClass('weapon')){
+            if($('.box[boxID = '+ num +']').hasClass('yellowBelt')){
+                changeWeapon(num, 'yellowBelt');
+            }
+            if($('.box[boxID = '+ num +']').hasClass('greenBelt')){
+                changeWeapon(num, 'greenBelt');
+            }
+            if($('.box[boxID = '+ num +']').hasClass('blueBelt')){
+                changeWeapon(num, 'blueBelt');
+            }
+            if($('.box[boxID = '+ num +']').hasClass('redBelt')){
+                changeWeapon(num, 'redBelt');
+            }
+            if($('.box[boxID = '+ num +']').hasClass('blackBelt')){
+                changeWeapon(num, 'blackBelt');
+            }
+        }
     }
 
     if(newPos.y === oldPos.y && newPos.x <= oldPos.x + maxMoves && newPos.x >= oldPos.x - maxMoves
     || newPos.x === oldPos.x && newPos.y <= oldPos.y + maxMoves && newPos.y >= oldPos.y - maxMoves){
         for(let i=Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++){
             let num = getSquareValue(i, oldPos.y);
-            if($('.box[boxID = '+ num +']').hasClass('weapon')){
-                if($('.box[boxID = '+ num +']').hasClass('yellowBelt')){
-
-
-                    if(player1Active){
-                        changeWeapon(num, player1, 'yellowBelt');
-                        //$('.box[boxID = '+ num +']').removeClass('yellowBelt').addClass(player1.weapon);
-                        //player1.weapon = 'yellowBelt';
-                    }else{
-
-                        $('.box[boxID = '+ num +']').removeClass('yellowBelt').addClass(player2.weapon);
-                        player2.weapon = 'yellowBelt';
-                    }
-                }
-                if($('.box[boxID = '+ num +']').hasClass('greenBelt')){
-                    if(player1Active){
-
-                        $('.box[boxID = '+ num +']').removeClass('greenBelt').addClass(player1.weapon);
-                        player1.weapon = 'greenBelt';
-                    }else{
-
-                        $('.box[boxID = '+ num +']').removeClass('greenBelt').addClass(player2.weapon);
-                        player2.weapon = 'greenBelt';
-                    }
-                }
-                if($('.box[boxID = '+ num +']').hasClass('blueBelt')){
-                    if(player1Active){
-
-                        $('.box[boxID = '+ num +']').removeClass('blueBelt').addClass(player1.weapon);
-                        player1.weapon = 'blueBelt';
-                    }else{
-
-                        $('.box[boxID = '+ num +']').removeClass('blueBelt').addClass(player2.weapon);
-                        player2.weapon = 'blueBelt';
-                    }
-                }
-                if($('.box[boxID = '+ num +']').hasClass('redBelt')){
-                    if(player1Active){
-
-                        $('.box[boxID = '+ num +']').removeClass('redBelt').addClass(player1.weapon);
-                        player1.weapon = 'redBelt';
-                    }else{
-
-                        $('.box[boxID = '+ num +']').removeClass('redBelt').addClass(player2.weapon);
-                        player2.weapon = 'redBelt';
-                    }
-                }
-                if($('.box[boxID = '+ num +']').hasClass('blackBelt')){
-                    if(player1Active){
-
-                        $('.box[boxID = '+ num +']').removeClass('blackBelt').addClass(player1.weapon);
-                        player1.weapon = 'blackBelt';
-                    }else{
-
-                        $('.box[boxID = '+ num +']').removeClass('blackBelt').addClass(player2.weapon);
-                        player2.weapon = 'blackBelt';
-                    }
-                }
-            }
-
+            checkWeapon(num);
         }
         for(let i=Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++){
             let num = getSquareValue(oldPos.x, i);
-            if($('.box[boxID = '+ num +']').hasClass('weapon')){
-                if($('.box[boxID = '+ num +']').hasClass('yellowBelt')){
-
-                    if(player1Active){
-
-                        $('.box[boxID = '+ num +']').removeClass('yellowBelt').addClass(player1.weapon);
-                        player1.weapon = 'yellowBelt';
-                    }else{
-
-                        $('.box[boxID = '+ num +']').removeClass('yellowBelt').addClass(player2.weapon);
-                        player2.weapon = 'yellowBelt';
-                    }
-                }
-                if($('.box[boxID = '+ num +']').hasClass('greenBelt')){
-                    if(player1Active){
-
-                        $('.box[boxID = '+ num +']').removeClass('greenBelt').addClass(player1.weapon);
-                        player1.weapon = 'greenBelt';
-                    }else{
-
-                        $('.box[boxID = '+ num +']').removeClass('greenBelt').addClass(player2.weapon);
-                        player2.weapon = 'greenBelt';
-                    }
-                }
-                if($('.box[boxID = '+ num +']').hasClass('blueBelt')){
-                    if(player1Active){
-
-                        $('.box[boxID = '+ num +']').removeClass('blueBelt').addClass(player1.weapon);
-                        player1.weapon = 'blueBelt';
-                    }else{
-
-                        $('.box[boxID = '+ num +']').removeClass('blueBelt').addClass(player2.weapon);
-                        player2.weapon = 'blueBelt';
-                    }
-                }
-                if($('.box[boxID = '+ num +']').hasClass('redBelt')){
-                    if(player1Active){
-
-                        $('.box[boxID = '+ num +']').removeClass('redBelt').addClass(player1.weapon);
-                        player1.weapon = 'redBelt';
-                    }else{
-
-                        $('.box[boxID = '+ num +']').removeClass('redBelt').addClass(player2.weapon);
-                        player2.weapon = 'redBelt';
-                    }
-                }
-                if($('.box[boxID = '+ num +']').hasClass('blackBelt')){
-                    if(player1Active){
-
-                        $('.box[boxID = '+ num +']').removeClass('blackBelt').addClass(player1.weapon);
-                        player1.weapon = 'blackBelt';
-                    }else{
-
-                        $('.box[boxID = '+ num +']').removeClass('blackBelt').addClass(player2.weapon);
-                        player2.weapon = 'blackBelt';
-                    }
-                }
-            }
-
+            checkWeapon(num);
         }
-
         if(player1Active){
             playerPosition = getPosition('.player2');
             oldPos = getXYPosition(playerPosition);
