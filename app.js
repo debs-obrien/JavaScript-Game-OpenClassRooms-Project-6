@@ -179,25 +179,35 @@ check horizontal move between old position and new position to a max number
 and check vertical move
 change old position to equal new position remove the player class and add to the square clicked
 change players and get their position
+check if pass over a weapon and if so leave old weapon and take new weapon
 */
 $('.box').on('click', function (e) {
 
 
     let sqClicked = $(this).attr('boxID');
     let newPos = getXYPosition(sqClicked);
-    for(let i=Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++){
-        let num = getSquareValue(i, oldPos.y);
 
+    function cantMove(num){
         if($('.box[boxID = '+ num +']').hasClass('obstacle')){
             return;
         }
+        if(player1Active){
+            if($('.box[boxID = '+ num +']').hasClass('player2')){
+                return;
+            }
+        }else{
+            if($('.box[boxID = '+ num +']').hasClass('player1')){
+                return;
+            }
+        }
+    }
+    for(let i=Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++){
+        let num = getSquareValue(i, oldPos.y);
+        cantMove(num);
     }
     for(let i=Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++){
         let num = getSquareValue(oldPos.x, i);
-
-        if($('.box[boxID = '+ num +']').hasClass('obstacle')){
-            return;
-        }
+        cantMove(num);
     }
 
     function changeWeapon(num, belt){
@@ -211,20 +221,29 @@ $('.box').on('click', function (e) {
     }
     function checkWeapon(num){
         if($('.box[boxID = '+ num +']').hasClass('weapon')){
+            if($('.box[boxID = '+ num +']').hasClass('WhiteBelt')){
+                changeWeapon(num, 'WhiteBelt');
+                return;
+            }
             if($('.box[boxID = '+ num +']').hasClass('yellowBelt')){
                 changeWeapon(num, 'yellowBelt');
+                return;
             }
             if($('.box[boxID = '+ num +']').hasClass('greenBelt')){
                 changeWeapon(num, 'greenBelt');
+                return;
             }
             if($('.box[boxID = '+ num +']').hasClass('blueBelt')){
                 changeWeapon(num, 'blueBelt');
+                return;
             }
             if($('.box[boxID = '+ num +']').hasClass('redBelt')){
                 changeWeapon(num, 'redBelt');
+                return;
             }
             if($('.box[boxID = '+ num +']').hasClass('blackBelt')){
                 changeWeapon(num, 'blackBelt');
+                return;
             }
         }
     }
