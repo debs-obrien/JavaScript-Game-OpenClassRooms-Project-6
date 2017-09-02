@@ -158,120 +158,43 @@ const getPosition = (itemClass) =>{
     let currentPosition = $(itemClass).attr('boxID');
     return currentPosition;
 };
-
-function orthoToCard(ortho) {
-    return ortho.y * 10 + ortho.x + 1;
+/*
+convert x y to square value
+*/
+function getSquareValue(xPos, yPos) {
+    return yPos * 10 + xPos;
 }
-
 
 let playerPosition = getPosition('.player1');
 let oldPos = getXYPosition(playerPosition);
-
+/*
+on click check if new between old position and new position there is an obstacle
+if there is return - dont let player move
+check horizontal move between old position and new position to a max number
+and check vertical move
+change old position to equal new position remove the player class and add to the square clicked
+*/
 $('.box').on('click', function (e) {
     let sqClicked = $(this).attr('boxID');
     let newPos = getXYPosition(sqClicked);
-
     for(let i=Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++){
-        let num = oldPos.y * 10 + i;
+        let num = getSquareValue(i, oldPos.y);
         if($('.box[boxID = '+ num +']').hasClass('obstacle')){
             return;
         }
     }
     for(let i=Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++){
-        let num = i * 10 + oldPos.x;
+        let num = getSquareValue(oldPos.x, i);
         if($('.box[boxID = '+ num +']').hasClass('obstacle')){
             return;
         }
     }
-    if(newPos.y === oldPos.y && newPos.x <= oldPos.x + 3 && newPos.x >= oldPos.x - 3){
+    if(newPos.y === oldPos.y && newPos.x <= oldPos.x + 3 && newPos.x >= oldPos.x - 3
+    || newPos.x === oldPos.x && newPos.y <= oldPos.y + 3 && newPos.y >= oldPos.y - 3){
         oldPos = newPos;
         $('.player1').removeClass('player1');
         $(this).addClass( "player1" );
-    }else if(newPos.x === oldPos.x && newPos.y <= oldPos.y + 3 && newPos.y >= oldPos.y - 3){
-        oldPos = newPos;
-        $('.player1').removeClass('player1');
-        $(this).addClass( "player1" );
-    }
-    
 
-});
-const isEmpty= ()=>{
-
-};
-//mouseover the square to see if you want to go there
-/*$('.box').on('mouseover', function (e) {
-    if (isEmpty(e.target)) {
-        if (player1Active) {
-            e.target.style.backgroundColor = 'red';
-            //e.target.style.backgroundImage = "url(player1_bw.png)";
-        } else {
-            e.target.style.backgroundImage = "url(img/x.svg)";
-        }
     }
 });
-//remove mouseover when not on the square
-$('.box').off('mouseover', function (e) {
-    e.target.style.backgroundImage = "";
-});*/
 
-//current position = 31 or {x: 0, y: 3}
-//get x coord then get y coord with splice for example
-
-//check if valid
-// if newPosition = x+1 or newPosition = x+2 or newPosition=x+3
-// or newPosition =x-1 or newPosition=x-2 or newPosition=x-3
-//      if newPosition > 0  && newPosition < 9
-//         if square has obstacle return
-                //return
-    //  return valid
-
-//check if valid y same as above
-//if valid player can move
-
-
-
-/*
-get current position of player and transform it to xy coords
-*/
-
-
-//get xy position
-//valid move is x +3 or y +3
-/*function validMove(){
-    let move = false;
-    let valid = false;
-    let newPosition;
-    //while (!move){
-        //if havent moved check if valid
-    let x = xyPosition;
-        if(x <= x +3 || x >= x-3){
-            console.log('ok');
-            valid = true;
-        }
-
-{
-            newPosition = currentPosition;
-            valid = true;
-        }
-
-    //}
-    //console.log(newPosition)
-    //valid moves is x +3 or x -3
-    //valid moves is y +3 or y -3
-    //valid moves if obstacle return
-    //valid moves if x = 9
-}
-validMove();
-
-function sameLineHor(ortho1, ortho2) {
-    return ortho1.y === ortho2.y;
-}*/
-//console.log(sameLineHor(4,5));
-
-//if square is valid move
-
-//square is valid if
-//square is empty
-//if square has obstacle end turn
-
-//end turn
