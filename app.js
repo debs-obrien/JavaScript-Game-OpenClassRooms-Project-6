@@ -299,46 +299,59 @@ $('.box').on('click', function (e) {
 function fight(){
     if(newPos.y === oldPos.y && newPos.x <= oldPos.x + 1 && newPos.x >= oldPos.x - 1
         || newPos.x === oldPos.x && newPos.y <= oldPos.y + 1 && newPos.y >= oldPos.y - 1) {
+        if(player1.score > 0 && player2.score >0){
+
 
         for (let i = Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++) {
             let num = getSquareValue(i, oldPos.y);
-            if(player1Active) {
-                if ($('.box[boxID = ' + num + ']').hasClass('player2')) {
-                    console.log('player 1 just attacked');
+            //while(player1.score !== 0 && player2.score !==0){
+                if(player1Active) {
+                    if ($('.box[boxID = ' + num + ']').hasClass('player2')) {
+                        console.log('player 1 just attacked');
+                        player2.score = player2.score - player1.damage;
+                        console.log(player2.score)
+                        changeScore('#player-2', player2)
+                    }
 
-                    player2.score = player2.score - player1.damage;
-                    console.log(player2.score)
-                    changeScore('#player-2', player2)
+                }else{
+                    if ($('.box[boxID = ' + num + ']').hasClass('player1')) {
+                        console.log('player 2 just attacked');
+                        player1.score = player1.score - player2.damage;
+                        console.log(player1.score)
+                        changeScore('#player-1', player1)
+                    }
                 }
+            //}
+            //break;
 
-            }else{
-                if ($('.box[boxID = ' + num + ']').hasClass('player1')) {
-                    console.log('player 2 just attacked');
-                    player1.score = player1.score - player2.damage;
-                    console.log(player1.score)
-                    changeScore('#player-1', player1)
-                }
-            }
 
         }
         for(let i=Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++){
             let num = getSquareValue(oldPos.x, i);
-            if(player1Active) {
-                if ($('.box[boxID = ' + num + ']').hasClass('player2')) {
-                    console.log('player 1 just attacked');
-                    player2.score = player2.score - player1.damage;
-                    console.log(player2.score)
-                    changeScore('#player-2', player2)
-                }
+            //while(player1.score !== 0 && player2.score !==0){
+                if(player1Active) {
+                    if ($('.box[boxID = ' + num + ']').hasClass('player2')) {
+                        console.log('player 1 just attacked');
+                        player2.score = player2.score - player1.damage;
+                        console.log(player2.score)
+                        changeScore('#player-2', player2)
+                    }
 
-            }else{
-                if ($('.box[boxID = ' + num + ']').hasClass('player1')) {
-                    console.log('player 2 just attacked');
-                    player1.score = player1.score - player2.damage;
-                    console.log(player1.score)
-                    changeScore('#player-1', player1)
+                }else{
+                    if ($('.box[boxID = ' + num + ']').hasClass('player1')) {
+                        console.log('player 2 just attacked');
+                        player1.score = player1.score - player2.damage;
+                        console.log(player1.score)
+                        changeScore('#player-1', player1)
+                    }
                 }
-            }
+           // }
+            //break;
+
+        }
+        }else{
+            console.log('game over')
+            changeScore('#player-2', 'winner')
         }
     }
 }
