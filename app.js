@@ -198,29 +198,40 @@ $('.box').on('click', function (e) {
 
     let sqClicked = $(this).attr('boxID');
     let newPos = getXYPosition(sqClicked);
+    if($(this).hasClass(".obstacle")){
+        return;
+    }
 
-    function cantMove(num){
-        let square = $('.box[boxID = ' + num + ']');
-        if(square.hasClass('obstacle')){
+
+    for(let i=Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++){
+        let num = getSquareValue(i, oldPos.y);
+        if($('.box[boxID = '+ num +']').hasClass('obstacle')){
             return;
         }
         if(player1Active){
-            if(square.hasClass('player2')){
+            if($('.box[boxID = ' + num + ']').hasClass('player2')){
                 return;
             }
         }else{
-            if(square.hasClass('player1')){
+            if($('.box[boxID = ' + num + ']').hasClass('player1')){
                 return;
             }
         }
     }
-    for(let i=Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++){
-        let num = getSquareValue(i, oldPos.y);
-        cantMove(num);
-    }
     for(let i=Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++){
         let num = getSquareValue(oldPos.x, i);
-        cantMove(num);
+        if($('.box[boxID = '+ num +']').hasClass('obstacle')){
+            return;
+        }
+        if(player1Active){
+            if($('.box[boxID = ' + num + ']').hasClass('player2')){
+                return;
+            }
+        }else{
+            if($('.box[boxID = ' + num + ']').hasClass('player1')){
+                return;
+            }
+        }
     }
     function changeScore(playerDiv, player, weapon){
         player.score = weapon.value;
