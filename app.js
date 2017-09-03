@@ -222,6 +222,10 @@ $('.box').on('click', function (e) {
         let num = getSquareValue(oldPos.x, i);
         cantMove(num);
     }
+    function changeScore(playerDiv, player, weapon){
+        player.score = weapon.value;
+        $(playerDiv + ' .score').text(player.score);
+    }
 
     function changeWeapon(num, belt, weapon){
         let square = $('.box[boxID = ' + num + ']');
@@ -230,16 +234,14 @@ $('.box').on('click', function (e) {
             $('#player-1 .belt').removeClass(belt);
             console.log(belt)
             player1.weapon = belt;
-            player1.score = weapon.value;
-            $('#player-1 .score').text(player1.score);
+            changeScore('#player-1', player1, weapon)
             //$('#player-1 .belt').addClass(player1.weapon);
 
         }else{
             square.removeClass(belt).addClass(player2.weapon);
             $('#player-2 .belt').removeClass(belt);
             player2.weapon = belt;
-            player2.score = weapon.value;
-            $('#player-2 .score').text(player2.score);
+            changeScore('#player-2', player2, weapon)
             //$('#player-1 .belt').addClass(player1.weapon);
 
         }
