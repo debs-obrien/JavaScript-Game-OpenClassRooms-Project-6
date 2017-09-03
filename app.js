@@ -17,6 +17,13 @@ let maxMoves = 3;
 function getRandom(num) {
     return Math.floor(Math.random() * num);
 }
+
+
+
+
+
+
+
 /*
 Squares array is equal to all the squares (all have class box)
 While the square is empty
@@ -124,13 +131,14 @@ for(let i=0; i < numObstacles; i+=1){
 /*
 Creates the weapons and players
 */
-let blackBelt = new Weapon('BlackBelt', 20, 'blackBelt weapon');
-let redBelt = new Weapon('RedBelt', 20, 'redBelt weapon');
-let blueBelt = new Weapon('BlueBelt', 20, 'blueBelt weapon');
-let greenBelt = new Weapon('GreenBelt', 20, 'greenBelt weapon');
+let blackBelt = new Weapon('BlackBelt', 70, 'blackBelt weapon');
+let redBelt = new Weapon('RedBelt', 60, 'redBelt weapon');
+let blueBelt = new Weapon('BlueBelt', 40, 'blueBelt weapon');
+let greenBelt = new Weapon('GreenBelt', 30, 'greenBelt weapon');
 let yellowBelt = new Weapon('YellowBelt', 20, 'yellowBelt weapon');
-let player1 = new Player('Player 1', 100, 'player1', 1, 'whiteBelt');
-let player2 = new Player('Player 2', 100, 'player2', 2, 'whiteBelt');
+let whiteBelt = new Weapon('WhiteBelt', 10, 'whiteBelt weapon');
+let player1 = new Player('Player 1', 10, 'player1', 1, 'whiteBelt');
+let player2 = new Player('Player 2', 10, 'player2', 2, 'whiteBelt');
 /*
 calls the add method to add the weapons then the players last
 */
@@ -141,6 +149,10 @@ greenBelt.add();
 yellowBelt.add();
 player1.add();
 player2.add();
+
+
+//$('#player-1').text('Weapon: ' + player1.weapon +' Score: ' +player1.score);
+//$('#player-2').text(player2.weapon);
 
 /*
 get x,y value for each square
@@ -188,15 +200,16 @@ $('.box').on('click', function (e) {
     let newPos = getXYPosition(sqClicked);
 
     function cantMove(num){
-        if($('.box[boxID = '+ num +']').hasClass('obstacle')){
+        let square = $('.box[boxID = ' + num + ']');
+        if(square.hasClass('obstacle')){
             return;
         }
         if(player1Active){
-            if($('.box[boxID = '+ num +']').hasClass('player2')){
+            if(square.hasClass('player2')){
                 return;
             }
         }else{
-            if($('.box[boxID = '+ num +']').hasClass('player1')){
+            if(square.hasClass('player1')){
                 return;
             }
         }
@@ -210,39 +223,52 @@ $('.box').on('click', function (e) {
         cantMove(num);
     }
 
-    function changeWeapon(num, belt){
+    function changeWeapon(num, belt, weapon){
+        let square = $('.box[boxID = ' + num + ']');
         if(player1Active) {
-            $('.box[boxID = ' + num + ']').removeClass(belt).addClass(player1.weapon);
+            square.removeClass(belt).addClass(player1.weapon);
+            $('#player-1 .belt').removeClass(belt);
+            console.log(belt)
             player1.weapon = belt;
+            player1.score = weapon.value;
+            $('#player-1 .score').text(player1.score);
+            //$('#player-1 .belt').addClass(player1.weapon);
+
         }else{
-            $('.box[boxID = '+ num +']').removeClass(belt).addClass(player2.weapon);
+            square.removeClass(belt).addClass(player2.weapon);
+            $('#player-2 .belt').removeClass(belt);
             player2.weapon = belt;
+            player2.score = weapon.value;
+            $('#player-2 .score').text(player2.score);
+            //$('#player-1 .belt').addClass(player1.weapon);
+
         }
     }
     function checkWeapon(num){
-        if($('.box[boxID = '+ num +']').hasClass('weapon')){
-            if($('.box[boxID = '+ num +']').hasClass('WhiteBelt')){
-                changeWeapon(num, 'WhiteBelt');
+        let square = $('.box[boxID = ' + num + ']');
+        if(square.hasClass('weapon')){
+            if(square.hasClass('whiteBelt')){
+                changeWeapon(num, 'whiteBelt', whiteBelt);
                 return;
             }
-            if($('.box[boxID = '+ num +']').hasClass('yellowBelt')){
-                changeWeapon(num, 'yellowBelt');
+            if(square.hasClass('yellowBelt')){
+                changeWeapon(num, 'yellowBelt', yellowBelt);
                 return;
             }
-            if($('.box[boxID = '+ num +']').hasClass('greenBelt')){
-                changeWeapon(num, 'greenBelt');
+            if(square.hasClass('greenBelt')){
+                changeWeapon(num, 'greenBelt', greenBelt);
                 return;
             }
-            if($('.box[boxID = '+ num +']').hasClass('blueBelt')){
-                changeWeapon(num, 'blueBelt');
+            if(square.hasClass('blueBelt')){
+                changeWeapon(num, 'blueBelt', blueBelt);
                 return;
             }
-            if($('.box[boxID = '+ num +']').hasClass('redBelt')){
-                changeWeapon(num, 'redBelt');
+            if(square.hasClass('redBelt')){
+                changeWeapon(num, 'redBelt', redBelt);
                 return;
             }
-            if($('.box[boxID = '+ num +']').hasClass('blackBelt')){
-                changeWeapon(num, 'blackBelt');
+            if(square.hasClass('blackBelt')){
+                changeWeapon(num, 'blackBelt', blackBelt);
                 return;
             }
         }

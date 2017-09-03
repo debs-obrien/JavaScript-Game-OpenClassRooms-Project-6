@@ -1,9 +1,26 @@
 li{
     list-style-type:none;
 }
+.container{
+    display:flex;
+    justify-content: space-between;
+}
+.player-container{
+    display:flex;
+    text-align:center;
+    flex-direction: column;
+}
+.player-container .player, .player-container .weapon{
+    display:flex;
+    text-align:center;
+    flex-direction: column;
+}
+.player-container .player-avatar, .player-container .belt{
+    margin: 0 auto;
+}
 #board-game {
     width: 800px;
-    margin: 3em auto 0;
+    padding: .5rem;
 }
 #board-game .box {
     background: #EFEFEF;
@@ -20,29 +37,31 @@ li{
 #board-game .blackBelt,#board-game .blueBelt,#board-game .redBelt,
 #board-game .greenBelt,#board-game .yellowBelt,
 #board-game .whiteBelt, #board-game .obstacle,
-#board-game .player1, #board-game .player2{
+#board-game .player1, #board-game .player2,
+#player-1 .player-avatar, #player-2 .player-avatar,
+#player-1 .belt, #player-2 .belt{
     background-repeat: no-repeat;
     background-position: center;
 }
 #board-game .obstacle{
     background-image:url('../src/Stone.png');
 }
-#board-game .blackBelt{
+#board-game .blackBelt, .blackBelt{
     background-image:url('../src/Black_Ninja_Belt_icon.png');
 }
-#board-game .redBelt{
+#board-game .redBelt, .redBelt{
     background-image:url('../src/Red_Ninja_Belt_icon.png');
 }
-#board-game .blueBelt{
+#board-game .blueBelt, .blueBelt{
     background-image:url('../src/Blue_Ninja_Belt_icon.png');
 }
-#board-game .greenBelt{
+#board-game .greenBelt, .greenBelt{
     background-image:url('../src/Green_Ninja_Belt_icon.png');
 }
-#board-game .yellowBelt{
+#board-game .yellowBelt, .yellowBelt{
     background-image:url('../src/Yellow_Ninja_Belt_icon.png');
 }
-#board-game .whiteBelt{
+#board-game .whiteBelt, .whiteBelt{
     background-image:url('../src/White_Ninja_Belt_icon.png');
 }
 #board-game .seminar{
@@ -53,4 +72,27 @@ li{
 }
 #board-game .player2{
     background-image:url('../src/player2.png');
+}
+#player-1, #player-2{
+    border:1px solid black;
+    padding:20px;
+}
+#player-1 .player, #player-2 .player{
+    font-size:20px;
+    text-align:center;
+}
+#player-1 .player-avatar, #player-2 .player-avatar,
+#player-1 .belt, #player-2 .belt{
+    width: 75px;
+    height: 75px;
+}
+#player-1 .player-avatar{
+    background-image:url('../src/player1.png');
+}
+#player-2 .player-avatar{
+    background-image:url('../src/player2.png');
+}
+
+#player-1 .score, #player-2 .score{
+    font-size:20px;
 }
