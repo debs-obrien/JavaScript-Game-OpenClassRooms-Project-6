@@ -104,12 +104,13 @@ Weapon.prototype.add = function(){
 /*
 creates a Player class
 */
-function Player(name, score, itemClass, player, weapon){
+function Player(name, score, itemClass, player, weapon, damage){
     this.name = name;
     this.score = score;
     this.itemClass = itemClass;
     this.player = player;
     this.weapon = weapon;
+    this.damage = damage;
 }
 /*
 creates a add method on the prototype Player
@@ -137,8 +138,8 @@ let blueBelt = new Weapon('BlueBelt', 40, 'blueBelt weapon');
 let greenBelt = new Weapon('GreenBelt', 30, 'greenBelt weapon');
 let yellowBelt = new Weapon('YellowBelt', 20, 'yellowBelt weapon');
 let whiteBelt = new Weapon('WhiteBelt', 10, 'whiteBelt weapon');
-let player1 = new Player('Player 1', 10, 'player1', 1, 'whiteBelt');
-let player2 = new Player('Player 2', 10, 'player2', 2, 'whiteBelt');
+let player1 = new Player('Player 1', 100, 'player1', 1, 'whiteBelt', 10);
+let player2 = new Player('Player 2', 100, 'player2', 2, 'whiteBelt', 10);
 /*
 calls the add method to add the weapons then the players last
 */
@@ -178,6 +179,68 @@ convert x y to square value
 function getSquareValue(xPos, yPos) {
     return yPos * 10 + xPos;
 }
+function changeScore(playerDiv, player){
+    $(playerDiv + ' .score').text(player.score);
+}
+
+function changeWeaponValue(playerDiv, player, weapon, damage){
+    player.damage = weapon.value;
+    $(playerDiv + ' .weapon-value').text(player.damage);
+}
+function removePlayerWeapon(playerDiv, player){
+    $(playerDiv + ' .belt').removeClass(player.weapon);
+}
+function addPlayerWeapon(playerDiv, player){
+    $(playerDiv + ' .belt').addClass(player.weapon);
+}
+
+function changeWeapon(num, belt, weapon){
+    let square = $('.box[boxID = ' + num + ']');
+    if(player1Active) {
+        square.removeClass(belt).addClass(player1.weapon);
+        removePlayerWeapon('#player-1', player1);
+        player1.weapon = belt;
+        addPlayerWeapon('#player-1', player1);
+        changeWeaponValue('#player-1', player1, weapon, weapon.value)
+
+    }else{
+        square.removeClass(belt).addClass(player2.weapon);
+        removePlayerWeapon('#player-2', player2);
+        player2.weapon = belt;
+        addPlayerWeapon('#player-2', player2);
+        changeWeaponValue('#player-2', player2, weapon, weapon.value)
+    }
+}
+function checkWeapon(num){
+    let square = $('.box[boxID = ' + num + ']');
+    if(square.hasClass('weapon')){
+        if(square.hasClass('whiteBelt')){
+            changeWeapon(num, 'whiteBelt', whiteBelt);
+            return;
+        }
+        if(square.hasClass('yellowBelt')){
+            changeWeapon(num, 'yellowBelt', yellowBelt);
+            return;
+        }
+        if(square.hasClass('greenBelt')){
+            changeWeapon(num, 'greenBelt', greenBelt);
+            return;
+        }
+        if(square.hasClass('blueBelt')){
+            changeWeapon(num, 'blueBelt', blueBelt);
+            return;
+        }
+        if(square.hasClass('redBelt')){
+            changeWeapon(num, 'redBelt', redBelt);
+            return;
+        }
+        if(square.hasClass('blackBelt')){
+            changeWeapon(num, 'blackBelt', blackBelt);
+            return;
+        }
+    }
+}
+
 /*
 get starting positions starting with player 1
 */
@@ -233,63 +296,52 @@ $('.box').on('click', function (e) {
             }
         }
     }
-    function changeScore(playerDiv, player, weapon){
-        player.score = weapon.value;
-        $(playerDiv + ' .score').text(player.score);
-    }
-    function removePlayerWeapon(playerDiv, player){
-        $(playerDiv + ' .belt').removeClass(player.weapon);
-    }
-    function addPlayerWeapon(playerDiv, player){
-        $(playerDiv + ' .belt').addClass(player.weapon);
-    }
+function fight(){
+    if(newPos.y === oldPos.y && newPos.x <= oldPos.x + 1 && newPos.x >= oldPos.x - 1
+        || newPos.x === oldPos.x && newPos.y <= oldPos.y + 1 && newPos.y >= oldPos.y - 1) {
 
-    function changeWeapon(num, belt, weapon){
-        let square = $('.box[boxID = ' + num + ']');
-        if(player1Active) {
-            square.removeClass(belt).addClass(player1.weapon);
-            removePlayerWeapon('#player-1', player1);
-            player1.weapon = belt;
-            addPlayerWeapon('#player-1', player1);
-            changeScore('#player-1', player1, weapon)
+        for (let i = Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++) {
+            let num = getSquareValue(i, oldPos.y);
+            if(player1Active) {
+                if ($('.box[boxID = ' + num + ']').hasClass('player2')) {
+                    console.log('player 1 just attacked');
 
-        }else{
-            square.removeClass(belt).addClass(player2.weapon);
-            removePlayerWeapon('#player-2', player2);
-            player2.weapon = belt;
-            addPlayerWeapon('#player-2', player2);
-            changeScore('#player-2', player2, weapon)
+                    player2.score = player2.score - player1.damage;
+                    console.log(player2.score)
+                    changeScore('#player-2', player2)
+                }
+
+            }else{
+                if ($('.box[boxID = ' + num + ']').hasClass('player1')) {
+                    console.log('player 2 just attacked');
+                    player1.score = player1.score - player2.damage;
+                    console.log(player1.score)
+                    changeScore('#player-1', player1)
+                }
+            }
+
         }
-    }
-    function checkWeapon(num){
-        let square = $('.box[boxID = ' + num + ']');
-        if(square.hasClass('weapon')){
-            if(square.hasClass('whiteBelt')){
-                changeWeapon(num, 'whiteBelt', whiteBelt);
-                return;
-            }
-            if(square.hasClass('yellowBelt')){
-                changeWeapon(num, 'yellowBelt', yellowBelt);
-                return;
-            }
-            if(square.hasClass('greenBelt')){
-                changeWeapon(num, 'greenBelt', greenBelt);
-                return;
-            }
-            if(square.hasClass('blueBelt')){
-                changeWeapon(num, 'blueBelt', blueBelt);
-                return;
-            }
-            if(square.hasClass('redBelt')){
-                changeWeapon(num, 'redBelt', redBelt);
-                return;
-            }
-            if(square.hasClass('blackBelt')){
-                changeWeapon(num, 'blackBelt', blackBelt);
-                return;
+        for(let i=Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++){
+            let num = getSquareValue(oldPos.x, i);
+            if(player1Active) {
+                if ($('.box[boxID = ' + num + ']').hasClass('player2')) {
+                    console.log('player 1 just attacked');
+                    player2.score = player2.score - player1.damage;
+                    console.log(player2.score)
+                    changeScore('#player-2', player2)
+                }
+
+            }else{
+                if ($('.box[boxID = ' + num + ']').hasClass('player1')) {
+                    console.log('player 2 just attacked');
+                    player1.score = player1.score - player2.damage;
+                    console.log(player1.score)
+                    changeScore('#player-1', player1)
+                }
             }
         }
     }
+}
 
     if(newPos.y === oldPos.y && newPos.x <= oldPos.x + maxMoves && newPos.x >= oldPos.x - maxMoves
     || newPos.x === oldPos.x && newPos.y <= oldPos.y + maxMoves && newPos.y >= oldPos.y - maxMoves){
@@ -301,21 +353,29 @@ $('.box').on('click', function (e) {
             let num = getSquareValue(oldPos.x, i);
             checkWeapon(num);
         }
+
         if(player1Active){
             playerPosition = getPosition('.player2');
             oldPos = getXYPosition(playerPosition);
             $('.player1').removeClass('player1');
             $(this).addClass( "player1" );
+
+            fight();
+
+
             player1Active = false;
         }else{
             playerPosition = getPosition('.player1');
             oldPos = getXYPosition(playerPosition);
             $('.player2').removeClass('player2');
             $(this).addClass( "player2" );
+
+            fight();
             player1Active = true;
         }
 
 
     }
-});
+
+    });
 
