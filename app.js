@@ -226,24 +226,28 @@ $('.box').on('click', function (e) {
         player.score = weapon.value;
         $(playerDiv + ' .score').text(player.score);
     }
+    function removePlayerWeapon(playerDiv, player){
+        $(playerDiv + ' .belt').removeClass(player.weapon);
+    }
+    function addPlayerWeapon(playerDiv, player){
+        $(playerDiv + ' .belt').addClass(player.weapon);
+    }
 
     function changeWeapon(num, belt, weapon){
         let square = $('.box[boxID = ' + num + ']');
         if(player1Active) {
             square.removeClass(belt).addClass(player1.weapon);
-            $('#player-1 .belt').removeClass(belt);
-            console.log(belt)
+            removePlayerWeapon('#player-1', player1);
             player1.weapon = belt;
+            addPlayerWeapon('#player-1', player1);
             changeScore('#player-1', player1, weapon)
-            //$('#player-1 .belt').addClass(player1.weapon);
 
         }else{
             square.removeClass(belt).addClass(player2.weapon);
-            $('#player-2 .belt').removeClass(belt);
+            removePlayerWeapon('#player-2', player2);
             player2.weapon = belt;
+            addPlayerWeapon('#player-2', player2);
             changeScore('#player-2', player2, weapon)
-            //$('#player-1 .belt').addClass(player1.weapon);
-
         }
     }
     function checkWeapon(num){
