@@ -6,6 +6,7 @@ li{
     justify-content: space-between;
 }
 .player-container{
+    width:200px;
     display:flex;
     text-align:center;
     flex-direction: column;
@@ -19,7 +20,8 @@ li{
     margin: 0 auto;
 }
 #board-game {
-    width: 800px;
+    min-width: 800px;
+    max-width:800px;
     padding: .5rem;
 }
 #board-game .box {
@@ -95,4 +97,8 @@ li{
 
 #player-1 .score, #player-2 .score{
     font-size:20px;
+}
+.attack, .defend{
+    padding:10px;
+    margin:10px;
 }

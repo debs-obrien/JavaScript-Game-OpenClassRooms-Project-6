@@ -13,6 +13,11 @@ const squares = [];
 const remainingSquares = squares;
 let player1Active = true;
 let maxMoves = 3;
+let move = true;
+let newPos;
+
+$('.attack').hide();
+$('.defend').hide();
 
 function getRandom(num) {
     return Math.floor(Math.random() * num);
@@ -248,6 +253,145 @@ let playerPosition = getPosition('.player1');
 let oldPos = getXYPosition(playerPosition);
 
 /*
+once fight begins set move to false so player can't move and can only fight
+*/
+function fight(newPos, oldPos){
+    if(newPos.y === oldPos.y && newPos.x <= oldPos.x + 1 && newPos.x >= oldPos.x - 1
+        || newPos.x === oldPos.x && newPos.y <= oldPos.y + 1 && newPos.y >= oldPos.y - 1) {
+        move = false;
+        $('.box').css( 'cursor', 'not-allowed' );
+
+        for(let i=Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++){
+            let num = getSquareValue(i, oldPos.y);
+
+            if(player1Active) {
+                if ($('.box[boxID = ' + num + ']').hasClass('player2')) {
+                    attacked = true;
+                    attack(newPos, oldPos)
+                    return;
+                }
+
+            }else{
+                if ($('.box[boxID = ' + num + ']').hasClass('player1')) {
+                    attacked = true;
+                    attack(newPos, oldPos);
+                    return;
+                }
+            }
+        }
+    }
+}
+let attacked = false;
+let defended = false;
+let player1Defended = false;
+let player2Defended = false;
+function defend(newPos, oldPos){
+    if(player1Active) {
+        console.log('defended');
+        defended = true;
+        player1Defended = true;
+        player1Active = false;
+        if(player1Defended && player2Defended){
+            $('#player-2 .defend').hide();
+            $('#player-1 .defend').hide();
+        }else{
+            $('#player-2 .defend').show();
+            $('#player-1 .defend').hide();
+        }
+        $('#player-2 .attack').show();
+        $('#player-1 .attack').hide();
+        $('#player-1 .message').text('you just defended')
+
+    }else{
+        console.log('defended');
+        defended = true;
+        player2Defended = true;
+        player1Active = true;
+        if(player1Defended && player2Defended){
+            $('#player-2 .defend').hide();
+            $('#player-1 .defend').hide();
+        }else{
+            $('#player-1 .defend').show();
+            $('#player-2 .defend').hide();
+        }
+        $('#player-1 .attack').show();
+        $('#player-2 .attack').hide();
+        $('#player-2 .message').text('you just defended')
+
+    }
+}
+function attack(newPos, oldPos){
+    if(attacked){
+        if(player1Active) {
+            player1Defended = false;
+            console.log('player 1 just attacked');
+            if(defended){
+                player2.score = player2.score - player1.damage *.5;
+                defended = false;
+            }else{
+                player2.score = player2.score - player1.damage;
+            }
+
+            changeScore('#player-2', player2)
+            $('#player-2 .attack').show();
+            $('#player-2 .defend').show();
+            $('#player-1 .attack').hide();
+            $('#player-1 .defend').hide();
+            $('#player-2 .message').text('player 1 just hit you with a round house kick and took away' + player1.damage + 'from your score')
+            $('#player-1 .message').text('Way to go you just hit him good');
+
+            if(player2.score <= 0){
+                changeScore('#player-1', 'winner')
+                $('#board-game').html('<p>Game Over</p>')
+            }
+            player1Active = false;
+        }else{
+            player2Defended = false;
+            console.log('player 2 just attacked');
+            if(defended){
+                player1.score = player1.score - player2.damage *.5;
+                defended = false;
+            }else{
+                player1.score = player1.score - player2.damage;
+            }
+            changeScore('#player-1', player1);
+
+            $('#player-1 .attack').show();
+            $('#player-1 .defend').show();
+            $('#player-2 .attack').hide();
+            $('#player-2 .defend').hide();
+            $('#player-1 .message').text('player 2 just hit you with a round house kick and took away' + player2.damage + 'from your score')
+            $('#player-2 .message').text('Way to go you just hit him good');
+            if(player1.score <= 0){
+                changeScore('#player-2', 'winner')
+                $('#board-game').html('<p>Game Over</p>')
+            }
+            player1Active = true;
+        }
+    }
+
+}
+
+
+
+$('#player-1 .attack').on('click', function (e) {
+    attack(newPos, oldPos);
+    attacked=true;
+});
+$('#player-1 .defend').on('click', function (e) {
+    defend(newPos, oldPos);
+    defended=true;
+});
+$('#player-2 .attack').on('click', function (e) {
+    attack(newPos, oldPos);
+    attacked=true;
+});
+$('#player-2 .defend').on('click', function (e) {
+    defend(newPos, oldPos);
+    defended=true;
+});
+
+/*
 on click check if new between old position and new position there is an obstacle
 if there is return - dont let player move
 check horizontal move between old position and new position to a max number
@@ -260,7 +404,7 @@ $('.box').on('click', function (e) {
 
 
     let sqClicked = $(this).attr('boxID');
-    let newPos = getXYPosition(sqClicked);
+    newPos = getXYPosition(sqClicked);
     if($(this).hasClass(".obstacle")){
         return;
     }
@@ -296,99 +440,39 @@ $('.box').on('click', function (e) {
             }
         }
     }
-function fight(){
-    if(newPos.y === oldPos.y && newPos.x <= oldPos.x + 1 && newPos.x >= oldPos.x - 1
-        || newPos.x === oldPos.x && newPos.y <= oldPos.y + 1 && newPos.y >= oldPos.y - 1) {
-        if(player1.score > 0 && player2.score >0){
+
+    if(move){
+        if(newPos.y === oldPos.y && newPos.x <= oldPos.x + maxMoves && newPos.x >= oldPos.x - maxMoves
+            || newPos.x === oldPos.x && newPos.y <= oldPos.y + maxMoves && newPos.y >= oldPos.y - maxMoves){
+            for(let i=Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++){
+                let num = getSquareValue(i, oldPos.y);
+                checkWeapon(num);
+            }
+            for(let i=Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++){
+                let num = getSquareValue(oldPos.x, i);
+                checkWeapon(num);
+            }
+
+            if(player1Active){
+                playerPosition = getPosition('.player2');
+                oldPos = getXYPosition(playerPosition);
+                $('.player1').removeClass('player1');
+                $(this).addClass( "player1" );
+                fight(newPos, oldPos);
+                player1Active = false;
+            }else{
+                playerPosition = getPosition('.player1');
+                oldPos = getXYPosition(playerPosition);
+                $('.player2').removeClass('player2');
+                $(this).addClass( "player2" );
+                fight(newPos, oldPos);
+                player1Active = true;
+            }
 
 
-        for (let i = Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++) {
-            let num = getSquareValue(i, oldPos.y);
-            //while(player1.score !== 0 && player2.score !==0){
-                if(player1Active) {
-                    if ($('.box[boxID = ' + num + ']').hasClass('player2')) {
-                        console.log('player 1 just attacked');
-                        player2.score = player2.score - player1.damage;
-                        console.log(player2.score)
-                        changeScore('#player-2', player2)
-                    }
-
-                }else{
-                    if ($('.box[boxID = ' + num + ']').hasClass('player1')) {
-                        console.log('player 2 just attacked');
-                        player1.score = player1.score - player2.damage;
-                        console.log(player1.score)
-                        changeScore('#player-1', player1)
-                    }
-                }
-            //}
-            //break;
-
-
-        }
-        for(let i=Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++){
-            let num = getSquareValue(oldPos.x, i);
-            //while(player1.score !== 0 && player2.score !==0){
-                if(player1Active) {
-                    if ($('.box[boxID = ' + num + ']').hasClass('player2')) {
-                        console.log('player 1 just attacked');
-                        player2.score = player2.score - player1.damage;
-                        console.log(player2.score)
-                        changeScore('#player-2', player2)
-                    }
-
-                }else{
-                    if ($('.box[boxID = ' + num + ']').hasClass('player1')) {
-                        console.log('player 2 just attacked');
-                        player1.score = player1.score - player2.damage;
-                        console.log(player1.score)
-                        changeScore('#player-1', player1)
-                    }
-                }
-           // }
-            //break;
-
-        }
-        }else{
-            console.log('game over')
-            changeScore('#player-2', 'winner')
         }
     }
-}
 
-    if(newPos.y === oldPos.y && newPos.x <= oldPos.x + maxMoves && newPos.x >= oldPos.x - maxMoves
-    || newPos.x === oldPos.x && newPos.y <= oldPos.y + maxMoves && newPos.y >= oldPos.y - maxMoves){
-        for(let i=Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++){
-            let num = getSquareValue(i, oldPos.y);
-            checkWeapon(num);
-        }
-        for(let i=Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++){
-            let num = getSquareValue(oldPos.x, i);
-            checkWeapon(num);
-        }
-
-        if(player1Active){
-            playerPosition = getPosition('.player2');
-            oldPos = getXYPosition(playerPosition);
-            $('.player1').removeClass('player1');
-            $(this).addClass( "player1" );
-
-            fight();
-
-
-            player1Active = false;
-        }else{
-            playerPosition = getPosition('.player1');
-            oldPos = getXYPosition(playerPosition);
-            $('.player2').removeClass('player2');
-            $(this).addClass( "player2" );
-
-            fight();
-            player1Active = true;
-        }
-
-
-    }
 
     });
 
