@@ -26,12 +26,31 @@ let player2Defended = false;
 
 $('.attack').hide();
 $('.defend').hide();
+$('.player-container').hide();
+$('#board-game').hide();
+$('#game-over').hide();
+
+$('#start').on('click', function (e) {
+    $('.player-container').show();
+    $('#board-game').show();
+    $('#start-game').hide();
+    $('body').css("background-color", "white")
+});
+$('#play-again').on('click', function (e) {
+    $('#game-over').hide();
+    //TODO RESET PLAYER
+    //TODO RESET BOARD
+});
+
+
 
 function getRandom(num) {
     return Math.floor(Math.random() * num);
 }
 
+function startGame(){
 
+}
 /*--------------------------------------------------------------------------------------------
 Squares array is equal to all the squares (all have class box)
 While the square is empty
@@ -403,13 +422,16 @@ function message(playerActiveDiv, playerNotActiveDiv, playerActive, playerNotAct
 /*--------------------------------------------------------------------------------------------
 if game is over set values depending on which player is active
 --------------------------------------------------------------------------------------------*/
-function gameOver(playerActiveDiv, playerNotActiveDiv, playerNotActive) {
+function gameOver(playerActiveDiv, playerNotActiveDiv, playerActive) {
     $(playerNotActiveDiv + ' .score').text('0');
     $(playerActiveDiv + ' .message').text('You Win');
     $(playerNotActiveDiv + ' .message').text('You Lose');
     $(playerNotActiveDiv + ' .attack').hide();
     $(playerNotActiveDiv + ' .defend').hide();
-    $('#board-game').html('<p>Game Over</p>')
+    $(playerNotActiveDiv + ' .player-avatar').addClass('dead');
+    $('#board-game').hide();
+    $('#game-over').show();
+    $('.winner').text(playerActive.name + ' you are the WINNER');
 }
 /*--------------------------------------------------------------------------------------------
 if player can only attack show attack button and hide defend depending on which player is active

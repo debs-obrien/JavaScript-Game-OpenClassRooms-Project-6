@@ -1,3 +1,43 @@
+body{
+    background-color:#ff6666;
+    font-family: "Montserrat", sans-serif;
+}
+#start-game{
+    margin: 0 auto;
+    padding: 80px;
+    text-align:center
+
+}
+#start-game h1{
+    font-size: 6em;
+    text-align:center;
+    color:#fff;
+    line-height: 0.85;
+    margin: 0 auto;
+    width: 2.75em;
+}
+#start-game p{
+    text-align:left;
+    font-size:1.5em;
+    color:#333;
+    padding:5px;
+    margin: 30px 0;
+}
+#start-game button{
+    font-size: 2em;
+    text-align:center;
+    background: #ffd67a;
+    border-radius: 28px;
+    color:#4a2323;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    width: 150px;
+    border: none;
+}
+#start-game button:hover{
+    background: #753c3c;
+    color:#fff;
+}
 li{
     list-style-type:none;
 }
@@ -75,6 +115,47 @@ li{
 #board-game .player2{
     background-image:url('../src/player2.png');
 }
+
+#board-game .player2 .dead {
+    background-image: url('../src/ninja_2_dead.png');
+    height: 75px;
+    width: 75px;
+    background-position: 75px 0px;
+    animation: run .8s steps(10) infinite;
+}
+#board-game .player2 .run{
+    background-image: url('../src/ninja_2_run.png');
+    height: 75px;
+    width: 75px;
+    background-position: 75px 0px;
+    animation: run 0.8s steps(10);
+}
+@keyframes run {
+
+    from { background-position:  20px; }
+    to { background-position: -707px; }
+
+
+}
+@keyframes attack {
+    100% {
+        background-position: -75px;
+    }
+}
+
+#board-game .player2 .attack{
+    background-image: url('../src/ninja_2_attack.png');
+    height: 75px;
+    width: 75px;
+    background-position: 10px 0px;
+    animation: attack .9s steps(10);
+}
+
+@keyframes attack {
+    100% {
+        background-position: -844px;
+    }
+}
 #player-1, #player-2{
     border:1px solid black;
     padding:20px;
@@ -91,9 +172,21 @@ li{
 #player-1 .player-avatar{
     background-image:url('../src/player1.png');
 }
-#player-2 .player-avatar{
-    background-image:url('../src/player2.png');
+#player-2 .player-avatar.dead{
+    background-image:url('../src/player2-dead.png');
 }
+#player-2 .player-avatar{
+//background-image:url('../src/player2.png');
+    background-image: url('../src/ninja_2_attack.png');
+    height: 75px;
+    width: 75px;
+    background-position: 20px 4px;
+    animation: sprite .5s steps(10);
+}
+#player-1 .player-avatar.dead{
+    background-image:url('../src/player1-dead.png');
+}
+
 
 #player-1 .score, #player-2 .score{
     font-size:20px;
