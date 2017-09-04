@@ -295,46 +295,44 @@ let attacked = false;
 let defended = false;
 let player1Defended = false;
 let player2Defended = false;
-function defend(newPos, oldPos){
-    if(player1Active) {
-        console.log('defended');
+
+function GetPlayerActive(ActiveDiv, NotActiveDiv, Active, NotActive){
+    playerActive = Active;
+    playerNotActive = NotActive;
+    playerActiveDiv = ActiveDiv;
+    playerNotActiveDiv = NotActiveDiv;
+}
+
+function defend(newPos, oldPos) {
+    if (player1Active) {
+        GetPlayerActive('#player-1', '#player-2', player1, player2);
         defended = true;
         player1Defended = true;
         player1Active = false;
-        if(player1Defended && player2Defended){
-            $('#player-2 .defend').hide();
-            $('#player-1 .defend').hide();
-        }else{
-            $('#player-2 .defend').show();
-            $('#player-1 .defend').hide();
-        }
-        $('#player-2 .attack').show();
-        $('#player-1 .attack').hide();
-        $('#player-1 .message').text('you just defended')
-
     }else{
-        console.log('defended');
+        GetPlayerActive('#player-2', '#player-1', player2, player1);
         defended = true;
         player2Defended = true;
         player1Active = true;
-        if(player1Defended && player2Defended){
-            $('#player-2 .defend').hide();
-            $('#player-1 .defend').hide();
-        }else{
-            $('#player-1 .defend').show();
-            $('#player-2 .defend').hide();
-        }
-        $('#player-1 .attack').show();
-        $('#player-2 .attack').hide();
-        $('#player-2 .message').text('you just defended')
-
     }
+    if(player1Defended && player2Defended){
+        CanOnlyAttack(playerActiveDiv, playerNotActiveDiv)
+    }else{
+        CanAttackAndDefend(playerActiveDiv, playerNotActiveDiv)
+    }
+    $(playerActiveDiv +' .message').text('you just defended');
 }
 
-function showButtons(playerActiveDiv, playerNotActiveDiv){
+function CanAttackAndDefend(playerActiveDiv, playerNotActiveDiv){
     $(playerNotActiveDiv + ' .attack').show();
     $(playerNotActiveDiv + ' .defend').show();
     $(playerActiveDiv + ' .attack').hide();
+    $(playerActiveDiv + ' .defend').hide();
+}
+function CanOnlyAttack(playerActiveDiv, playerNotActiveDiv){
+    $(playerNotActiveDiv + ' .attack').show();
+    $(playerActiveDiv + ' .attack').show();
+    $(playerNotActiveDiv + ' .defend').hide();
     $(playerActiveDiv + ' .defend').hide();
 }
 function gameOver(playerActiveDiv, playerNotActiveDiv, playerNotActive){
@@ -353,35 +351,29 @@ let playerNotActiveDiv;
 function attack(newPos, oldPos){
     if(attacked) {
         if (player1Active) {
-            playerActive = player1;
-            playerNotActive = player2;
-            playerActiveDiv = '#player-1';
-            playerNotActiveDiv = '#player-2';
+            GetPlayerActive('#player-1', '#player-2', player1, player2);
             changeScore(playerNotActiveDiv, playerActive, playerNotActive);
-            showButtons(playerActiveDiv, playerNotActiveDiv);
+            CanAttackAndDefend(playerActiveDiv, playerNotActiveDiv);
             $('#player-2 .message').text('player 1 just hit you with a round house kick and took away' + player1.damage + 'from your score')
             $('#player-1 .message').text('Way to go you just hit him good');
 
 
             player1Defended = false;
             player1Active = false;
-            if (player2.score <= 0) {
+            if (playerNotActive.score <= 0) {
                 gameOver(playerActiveDiv, playerNotActiveDiv, playerNotActive)
             }
 
         } else {
-            playerActive = player2;
-            playerNotActive = player1;
-            playerActiveDiv = '#player-2';
-            playerNotActiveDiv = '#player-1';
+            GetPlayerActive('#player-2', '#player-1', player2, player1);
             changeScore(playerNotActiveDiv, playerActive, playerNotActive);
-            showButtons(playerActiveDiv, playerNotActiveDiv);
+            CanAttackAndDefend(playerActiveDiv, playerNotActiveDiv);
             $('#player-1 .message').text('player 1 just hit you with a round house kick and took away' + player1.damage + 'from your score')
             $('#player-2 .message').text('Way to go you just hit him good');
 
             player2Defended = false;
             player1Active = true;
-            if (player1.score <= 0) {
+            if (playerNotActive.score <= 0) {
                 gameOver(playerActiveDiv, playerNotActiveDiv, playerNotActive)
             }
         }
