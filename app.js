@@ -57,9 +57,6 @@ function addItem(itemClass, player) {
             squares.eq(item).addClass(itemClass);
             let index = remainingSquares.indexOf(item);
             remainingSquares.splice(index, 1);
-            //console.log(item + ' added');
-            //console.log(itemClass);
-
             empty = false;
         }
     }
@@ -103,7 +100,6 @@ function Weapon(type, value, itemClass){
 creates a add method on the prototype Weapon
 */
 Weapon.prototype.add = function(){
-    //console.log(this.type, this.value, this.itemClass);
     addItem(this.itemClass);
 };
 /*
@@ -156,9 +152,17 @@ yellowBelt.add();
 player1.add();
 player2.add();
 
-
-//$('#player-1').text('Weapon: ' + player1.weapon +' Score: ' +player1.score);
-//$('#player-2').text(player2.weapon);
+/*
+Sets the player Data boxes
+*/
+function setPlayerData(playerDiv, player){
+    $(playerDiv + ' .player-name').text(player.name);
+    $(playerDiv + ' .score').text(player.score);
+    $(playerDiv + ' .belt').addClass(player.weapon);
+    $(playerDiv + ' .weapon-value').text(player.damage);
+}
+setPlayerData('#player-1', player1);
+setPlayerData('#player-2', player2);
 
 /*
 get x,y value for each square
@@ -175,8 +179,7 @@ function getXYPosition(square){
 get position of the player
 */
 const getPosition = (itemClass) =>{
-    let currentPosition = $(itemClass).attr('boxID');
-    return currentPosition;
+    return $(itemClass).attr('boxID');
 };
 /*
 convert x y to square value
@@ -184,8 +187,15 @@ convert x y to square value
 function getSquareValue(xPos, yPos) {
     return yPos * 10 + xPos;
 }
-function changeScore(playerDiv, player){
-    $(playerDiv + ' .score').text(player.score);
+function changeScore(playerNotActiveDiv, playerActive, playerNotActive){
+    if(defended){
+        playerNotActive.score = playerNotActive.score - playerActive.damage *.5;
+        defended = false;
+    }else{
+        playerNotActive.score = playerNotActive.score - playerActive.damage;
+    }
+
+    $(playerNotActiveDiv + ' .score').text(playerNotActive.score);
 }
 
 function changeWeaponValue(playerDiv, player, weapon, damage){
@@ -320,55 +330,65 @@ function defend(newPos, oldPos){
 
     }
 }
-function attack(newPos, oldPos){
-    if(attacked){
-        if(player1Active) {
-            player1Defended = false;
-            console.log('player 1 just attacked');
-            if(defended){
-                player2.score = player2.score - player1.damage *.5;
-                defended = false;
-            }else{
-                player2.score = player2.score - player1.damage;
-            }
 
-            changeScore('#player-2', player2)
-            $('#player-2 .attack').show();
-            $('#player-2 .defend').show();
-            $('#player-1 .attack').hide();
-            $('#player-1 .defend').hide();
+function showButtons(playerActiveDiv, playerNotActiveDiv){
+    $(playerNotActiveDiv + ' .attack').show();
+    $(playerNotActiveDiv + ' .defend').show();
+    $(playerActiveDiv + ' .attack').hide();
+    $(playerActiveDiv + ' .defend').hide();
+}
+function gameOver(playerActiveDiv, playerNotActiveDiv, playerNotActive){
+    $(playerNotActiveDiv + ' .score').text('0');
+    $(playerActiveDiv + ' .message').text('You Win');
+    $(playerNotActiveDiv + ' .message').text('You Lose');
+    $(playerNotActiveDiv + ' .attack').hide();
+    $(playerNotActiveDiv + ' .defend').hide();
+    $('#board-game').html('<p>Game Over</p>')
+}
+
+let playerActive;
+let playerNotActive;
+let playerActiveDiv;
+let playerNotActiveDiv;
+function attack(newPos, oldPos){
+    if(attacked) {
+        if (player1Active) {
+            playerActive = player1;
+            playerNotActive = player2;
+            playerActiveDiv = '#player-1';
+            playerNotActiveDiv = '#player-2';
+            changeScore(playerNotActiveDiv, playerActive, playerNotActive);
+            showButtons(playerActiveDiv, playerNotActiveDiv);
             $('#player-2 .message').text('player 1 just hit you with a round house kick and took away' + player1.damage + 'from your score')
             $('#player-1 .message').text('Way to go you just hit him good');
 
-            if(player2.score <= 0){
-                changeScore('#player-1', 'winner')
-                $('#board-game').html('<p>Game Over</p>')
-            }
-            player1Active = false;
-        }else{
-            player2Defended = false;
-            console.log('player 2 just attacked');
-            if(defended){
-                player1.score = player1.score - player2.damage *.5;
-                defended = false;
-            }else{
-                player1.score = player1.score - player2.damage;
-            }
-            changeScore('#player-1', player1);
 
-            $('#player-1 .attack').show();
-            $('#player-1 .defend').show();
-            $('#player-2 .attack').hide();
-            $('#player-2 .defend').hide();
-            $('#player-1 .message').text('player 2 just hit you with a round house kick and took away' + player2.damage + 'from your score')
-            $('#player-2 .message').text('Way to go you just hit him good');
-            if(player1.score <= 0){
-                changeScore('#player-2', 'winner')
-                $('#board-game').html('<p>Game Over</p>')
+            player1Defended = false;
+            player1Active = false;
+            if (player2.score <= 0) {
+                gameOver(playerActiveDiv, playerNotActiveDiv, playerNotActive)
             }
+
+        } else {
+            playerActive = player2;
+            playerNotActive = player1;
+            playerActiveDiv = '#player-2';
+            playerNotActiveDiv = '#player-1';
+            changeScore(playerNotActiveDiv, playerActive, playerNotActive);
+            showButtons(playerActiveDiv, playerNotActiveDiv);
+            $('#player-1 .message').text('player 1 just hit you with a round house kick and took away' + player1.damage + 'from your score')
+            $('#player-2 .message').text('Way to go you just hit him good');
+
+            player2Defended = false;
             player1Active = true;
+            if (player1.score <= 0) {
+                gameOver(playerActiveDiv, playerNotActiveDiv, playerNotActive)
+            }
         }
+
+
     }
+
 
 }
 
