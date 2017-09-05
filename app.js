@@ -11,14 +11,14 @@ const boardSize = 89;
 const numObstacles = 10;
 const squares = [];
 const remainingSquares = squares;
-let player1Active = true;
 let maxMoves = 3;
-let move = true;
 let newPos;
 let playerActive;
 let playerNotActive;
 let playerActiveDiv;
 let playerNotActiveDiv;
+let player1Active = true;
+let move = true;
 let attacked = false;
 let defended = false;
 let player1Defended = false;
@@ -38,11 +38,7 @@ $('#start').on('click', function (e) {
     $('#start-game').hide();
     $('body').css("background-color", "white")
 });
-$('#play-again').on('click', function (e) {
-    $('#game-over').hide();
-    //TODO RESET PLAYER
-    //TODO RESET BOARD
-});
+
 
 
 
@@ -50,9 +46,6 @@ function getRandom(num) {
     return Math.floor(Math.random() * num);
 }
 
-function startGame(){
-
-}
 /*--------------------------------------------------------------------------------------------
 Squares array is equal to all the squares (all have class box)
 While the square is empty
@@ -149,17 +142,18 @@ Player.prototype.add = function () {
 /*--------------------------------------------------------------------------------------------
 Creates the board game
 --------------------------------------------------------------------------------------------*/
-let game = new GameBoard(boardSize);
-game.createBoard();
+//let game = new GameBoard(boardSize);
+//game.createBoard();
 /*--------------------------------------------------------------------------------------------
 This adds the obstacles the number of times defined at the start
 --------------------------------------------------------------------------------------------*/
-for (let i = 0; i < numObstacles; i += 1) {
-    game.obstacles('obstacle');
-}
+//for (let i = 0; i < numObstacles; i += 1) {
+  //  game.obstacles('obstacle');
+//}
 /*--------------------------------------------------------------------------------------------
 Creates the weapons and players
 --------------------------------------------------------------------------------------------*/
+let game = new GameBoard(boardSize);
 let blackBelt = new Weapon('BlackBelt', 70, 'blackBelt weapon');
 let redBelt = new Weapon('RedBelt', 60, 'redBelt weapon');
 let blueBelt = new Weapon('BlueBelt', 40, 'blueBelt weapon');
@@ -171,13 +165,13 @@ let player2 = new Player('Player 2', 100, 'player2', 2, 'whiteBelt', 10);
 /*--------------------------------------------------------------------------------------------
 calls the add method to add the weapons then the players last
 --------------------------------------------------------------------------------------------*/
-blackBelt.add();
+/*blackBelt.add();
 redBelt.add();
 blueBelt.add();
 greenBelt.add();
 yellowBelt.add();
 player1.add();
-player2.add();
+player2.add();*/
 
 /*--------------------------------------------------------------------------------------------
 Sets the player Data boxes
@@ -189,9 +183,44 @@ function setPlayerData(playerDiv, player) {
     $(playerDiv + ' .weapon-value').text(player.damage);
 }
 
-setPlayerData('#player-1', player1);
-setPlayerData('#player-2', player2);
+//setPlayerData('#player-1', player1);
+//setPlayerData('#player-2', player2);
 
+function loadGame(){
+    game.createBoard();
+    for (let i = 0; i < numObstacles; i += 1) {
+        game.obstacles('obstacle');
+    }
+    blackBelt.add();
+    redBelt.add();
+    blueBelt.add();
+    greenBelt.add();
+    yellowBelt.add();
+    player1.add();
+    player2.add();
+    setPlayerData('#player-1', player1);
+    setPlayerData('#player-2', player2);
+}
+loadGame();
+$('#play-again').on('click', function (e) {
+    $('#game-over').hide();
+    $('.player-container').show();
+    $('.box').remove();
+    $('#board-game').show();
+    loadGame();
+    player1 = new Player('Player 1', 100, 'player1', 1, 'whiteBelt', 10);
+    player2 = new Player('Player 2', 100, 'player2', 2, 'whiteBelt', 10);
+    player1Active = true;
+    move = true;
+    attacked = false;
+    defended = false;
+    player1Defended = false;
+    player2Defended = false;
+    $(playerNotActiveDiv + ' .player-avatar').removeClass('dead');
+    $(playerNotActiveDiv + ' .message').text('');
+    $(playerActiveDiv + ' .message').text('');
+
+});
 
 /*--------------------------------------------------------------------------------------------
 get x,y value for each square
@@ -210,6 +239,8 @@ get position of the player
 const getPosition = (itemClass) => {
     return $(itemClass).attr('boxID');
 };
+let playerPosition = getPosition('.player1');
+let oldPos = getXYPosition(playerPosition);
 
 /*--------------------------------------------------------------------------------------------
 convert x y to square value
@@ -254,6 +285,29 @@ if there is a weapon see which one and call change Weapon function
 function checkWeapon(num) {
     let square = $('.box[boxID = ' + num + ']');
     if (square.hasClass('weapon')) {
+        /*let belt = '';
+        switch (square.hasClass(belt))
+        {
+            case 'whiteBelt':
+                changeWeapon(num, 'whiteBelt', whiteBelt);
+                break;
+            case 'yellowBelt':
+                changeWeapon(num, 'yellowBelt', yellowBelt);
+                break;
+            case 'greenBelt':
+                changeWeapon(num, 'greenBelt', greenBelt);
+                break;
+            case 'blueBelt':
+                changeWeapon(num, 'blueBelt', blueBelt);
+                break;
+            case 'redBelt':
+                changeWeapon(num, 'redBelt', redBelt);
+                break;
+            case 'blackBelt':
+                changeWeapon(num, 'blackBelt', blackBelt);
+                break;
+        }*/
+
         if (square.hasClass('whiteBelt')) {
             changeWeapon(num, 'whiteBelt', whiteBelt);
             return;
@@ -284,8 +338,7 @@ function checkWeapon(num) {
 /*--------------------------------------------------------------------------------------------
 get starting positions starting with player 1
 --------------------------------------------------------------------------------------------*/
-let playerPosition = getPosition('.player1');
-let oldPos = getXYPosition(playerPosition);
+
 
 /*--------------------------------------------------------------------------------------------
 on click check if new between old position and new position there is an obstacle
@@ -298,77 +351,80 @@ change players and get their position
 check if pass over a weapon and if so leave old weapon and take new weapon
 call fight function to see if they can fight
 --------------------------------------------------------------------------------------------*/
-$('.box').on('click', function (e) {
+movePlayer();
+function movePlayer(){
+    $('.box').on('click', function (e) {
 
-    let sqClicked = $(this).attr('boxID');
-    newPos = getXYPosition(sqClicked);
-    if ($(this).hasClass(".obstacle")) {
-        return;
-    }
-    for (let i = Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++) {
-        let num = getSquareValue(i, oldPos.y);
-        let square = $('.box[boxID = ' + num + ']');
-        if (square.hasClass('obstacle')) {
+        let sqClicked = $(this).attr('boxID');
+        newPos = getXYPosition(sqClicked);
+        if ($(this).hasClass(".obstacle")) {
             return;
         }
-        if (player1Active) {
-            if (square.hasClass('player2')) {
+        for (let i = Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++) {
+            let num = getSquareValue(i, oldPos.y);
+            let square = $('.box[boxID = ' + num + ']');
+            if (square.hasClass('obstacle')) {
                 return;
             }
-        } else {
-            if (square.hasClass('player1')) {
-                return;
-            }
-        }
-    }
-    for (let i = Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++) {
-        let num = getSquareValue(oldPos.x, i);
-        let square = $('.box[boxID = ' + num + ']');
-        if (square.hasClass('obstacle')) {
-            return;
-        }
-        if (player1Active) {
-            if (square.hasClass('player2')) {
-                return;
-            }
-        } else {
-            if (square.hasClass('player1')) {
-                return;
-            }
-        }
-    }
-
-    if (move) {
-        if (newPos.y === oldPos.y && newPos.x <= oldPos.x + maxMoves && newPos.x >= oldPos.x - maxMoves
-            || newPos.x === oldPos.x && newPos.y <= oldPos.y + maxMoves && newPos.y >= oldPos.y - maxMoves) {
-            for (let i = Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++) {
-                let num = getSquareValue(i, oldPos.y);
-                checkWeapon(num);
-            }
-            for (let i = Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++) {
-                let num = getSquareValue(oldPos.x, i);
-                checkWeapon(num);
-            }
-            whoIsActive();
             if (player1Active) {
-                playerPosition = getPosition('.player2');
-                oldPos = getXYPosition(playerPosition);
-                $('.player1').removeClass('player1');
-                $(this).addClass("player1");
-                fight(newPos, oldPos);
-                player1Active = false;
-
+                if (square.hasClass('player2')) {
+                    return;
+                }
             } else {
-                playerPosition = getPosition('.player1');
-                oldPos = getXYPosition(playerPosition);
-                $('.player2').removeClass('player2');
-                $(this).addClass("player2");
-                fight(newPos, oldPos);
-                player1Active = true;
+                if (square.hasClass('player1')) {
+                    return;
+                }
             }
         }
-    }
-});
+        for (let i = Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++) {
+            let num = getSquareValue(oldPos.x, i);
+            let square = $('.box[boxID = ' + num + ']');
+            if (square.hasClass('obstacle')) {
+                return;
+            }
+            if (player1Active) {
+                if (square.hasClass('player2')) {
+                    return;
+                }
+            } else {
+                if (square.hasClass('player1')) {
+                    return;
+                }
+            }
+        }
+
+        if (move) {
+            if (newPos.y === oldPos.y && newPos.x <= oldPos.x + maxMoves && newPos.x >= oldPos.x - maxMoves
+                || newPos.x === oldPos.x && newPos.y <= oldPos.y + maxMoves && newPos.y >= oldPos.y - maxMoves) {
+                for (let i = Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++) {
+                    let num = getSquareValue(i, oldPos.y);
+                    checkWeapon(num);
+                }
+                for (let i = Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++) {
+                    let num = getSquareValue(oldPos.x, i);
+                    checkWeapon(num);
+                }
+                whoIsActive();
+                if (player1Active) {
+                    playerPosition = getPosition('.player2');
+                    oldPos = getXYPosition(playerPosition);
+                    $('.player1').removeClass('player1');
+                    $(this).addClass("player1");
+                    fight(newPos, oldPos);
+                    player1Active = false;
+
+                } else {
+                    playerPosition = getPosition('.player1');
+                    oldPos = getXYPosition(playerPosition);
+                    $('.player2').removeClass('player2');
+                    $(this).addClass("player2");
+                    fight(newPos, oldPos);
+                    player1Active = true;
+                }
+            }
+        }
+    });
+}
 /*--------------------------------------------------------------------------------------------
 click buttons for attack and defend
 --------------------------------------------------------------------------------------------*/
@@ -539,3 +595,6 @@ function defend() {
     }
     $(playerActiveDiv + ' .message').text('you just defended');
 }
+
+
+
