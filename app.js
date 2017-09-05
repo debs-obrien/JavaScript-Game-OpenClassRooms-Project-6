@@ -307,30 +307,32 @@ $('.box').on('click', function (e) {
     }
     for (let i = Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++) {
         let num = getSquareValue(i, oldPos.y);
-        if ($('.box[boxID = ' + num + ']').hasClass('obstacle')) {
+        let square = $('.box[boxID = ' + num + ']');
+        if (square.hasClass('obstacle')) {
             return;
         }
         if (player1Active) {
-            if ($('.box[boxID = ' + num + ']').hasClass('player2')) {
+            if (square.hasClass('player2')) {
                 return;
             }
         } else {
-            if ($('.box[boxID = ' + num + ']').hasClass('player1')) {
+            if (square.hasClass('player1')) {
                 return;
             }
         }
     }
     for (let i = Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++) {
         let num = getSquareValue(oldPos.x, i);
-        if ($('.box[boxID = ' + num + ']').hasClass('obstacle')) {
+        let square = $('.box[boxID = ' + num + ']');
+        if (square.hasClass('obstacle')) {
             return;
         }
         if (player1Active) {
-            if ($('.box[boxID = ' + num + ']').hasClass('player2')) {
+            if (square.hasClass('player2')) {
                 return;
             }
         } else {
-            if ($('.box[boxID = ' + num + ']').hasClass('player1')) {
+            if (square.hasClass('player1')) {
                 return;
             }
         }
