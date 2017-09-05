@@ -2,6 +2,9 @@ body{
     background-color:#ff6666;
     font-family: "Montserrat", sans-serif;
 }
+button{
+    cursor:pointer;
+}
 #start-game, #game-over{
     margin: 0 auto;
     padding: 80px;
@@ -159,7 +162,7 @@ li{
     }
 }*/
 #player-1, #player-2{
-    border:1px solid black;
+    //border:1px solid black;
     padding:20px;
 }
 #player-1 .player, #player-2 .player{
@@ -185,14 +188,6 @@ li{
 }
 #player-2 .player-avatar.dead{
     background-image:url('../src/player2-dead.png');
-}
-#player-2 .player-avatar{
-//background-image:url('../src/player2.png');
-    background-image: url('../src/ninja_2_attack.png');
-    height: 75px;
-    width: 100px;
-    background-position: 20px 4px;
-    animation: sprite .5s steps(10);
 }
 
 #player-1 .player-avatar{

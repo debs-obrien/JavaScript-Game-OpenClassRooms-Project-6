@@ -195,6 +195,9 @@ $('#play-again').on('click', function (e) {
     $(playerActiveDiv + ' .player-avatar').removeClass('win');
     $(playerNotActiveDiv + ' .message').text('');
     $(playerActiveDiv + ' .message').text('');
+    $(playerActiveDiv).addClass('active');
+    $(playerNotActiveDiv).removeClass('active');
+    $('.player-container').css('background-color', '#fff');
     loadGame();
     playerPosition = getPosition('.player1');
     oldPos = getXYPosition(playerPosition);
