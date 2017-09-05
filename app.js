@@ -24,6 +24,8 @@ let defended = false;
 let player1Defended = false;
 let player2Defended = false;
 
+
+
 $('.attack').hide();
 $('.defend').hide();
 $('.player-container').hide();
@@ -190,6 +192,7 @@ function setPlayerData(playerDiv, player) {
 setPlayerData('#player-1', player1);
 setPlayerData('#player-2', player2);
 
+
 /*--------------------------------------------------------------------------------------------
 get x,y value for each square
 --------------------------------------------------------------------------------------------*/
@@ -296,6 +299,7 @@ check if pass over a weapon and if so leave old weapon and take new weapon
 call fight function to see if they can fight
 --------------------------------------------------------------------------------------------*/
 $('.box').on('click', function (e) {
+
     let sqClicked = $(this).attr('boxID');
     newPos = getXYPosition(sqClicked);
     if ($(this).hasClass(".obstacle")) {
@@ -343,6 +347,7 @@ $('.box').on('click', function (e) {
                 let num = getSquareValue(oldPos.x, i);
                 checkWeapon(num);
             }
+            whoIsActive();
             if (player1Active) {
                 playerPosition = getPosition('.player2');
                 oldPos = getXYPosition(playerPosition);
@@ -350,6 +355,7 @@ $('.box').on('click', function (e) {
                 $(this).addClass("player1");
                 fight(newPos, oldPos);
                 player1Active = false;
+
             } else {
                 playerPosition = getPosition('.player1');
                 oldPos = getXYPosition(playerPosition);
@@ -389,6 +395,8 @@ function GetPlayerActive(Active, NotActive, ActiveDiv, NotActiveDiv) {
     playerNotActive = NotActive;
     playerActiveDiv = ActiveDiv;
     playerNotActiveDiv = NotActiveDiv;
+    $(NotActiveDiv).addClass('active');
+    $(ActiveDiv).removeClass('active');
 }
 /*--------------------------------------------------------------------------------------------
 if player 1 is active set values else set player 2 values
