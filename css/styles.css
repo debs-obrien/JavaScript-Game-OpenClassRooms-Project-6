@@ -68,9 +68,10 @@ li{
     min-width: 760px;
     max-width: 760px;
     padding: .5rem;
+    background-image:url('../src/bg-ninja3.jpg');
+    background-size: cover;
 }
 #board-game .box {
-    background: #EFEFEF;
     border-radius: 4px;
     width: 75px;
     height: 75px;
@@ -86,7 +87,7 @@ li{
 #board-game .whiteBelt, #board-game .obstacle,
 #board-game .player1, #board-game .player2,
 #player-1 .player-avatar, #player-2 .player-avatar,
-#player-1 .belt, #player-2 .belt{
+#player-1 .belt, #player-2 .belt, .player1-hover, .player2-hover{
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -177,6 +178,9 @@ li{
 .player1{
     background-image:url('../src/player1-active.png');
 }
+.player1-hover{
+    background-image:url('../src/player1-active.png');
+}
 .player1.active{
     background-image:url('../src/player1-active.png');
 }
@@ -189,7 +193,9 @@ li{
 #player-2 .player-avatar.dead{
     background-image:url('../src/player2-dead.png');
 }
-
+.player1-hover{
+    background-image:url('../src/player1-active.png');
+}
 #player-1 .player-avatar{
     background-image:url('../src/player1-not-active.png');
 }
@@ -207,7 +213,9 @@ li{
     height:149px;
     width:150px;
 }
-
+.player2-hover{
+    background-image:url('../src/player2-active.png');
+}
 #player-2 .player-avatar{
     background-image:url('../src/player2-not-active.png');
 }

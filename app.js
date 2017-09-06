@@ -305,15 +305,32 @@ call fight function to see if they can fight
 --------------------------------------------------------------------------------------------*/
 movePlayer();
 function movePlayer(){
+    if ($(this).hasClass(".obstacle")) {
+        return;
+    }
+    //mouseover the square to see if you want to go there
+    $('.box').hover(
+        function() {
+
+            if(player1Active){
+                $( this ).addClass("player1-hover")
+            }else{
+                $( this ).addClass("player2-hover")
+            }
+        }, function() {
+                $( this ).removeClass("player1-hover")
+                $( this ).removeClass("player2-hover")
+        }
+    );
+
+
     $('.box').on('click', function (e) {
 
         let sqClicked = $(this).attr('boxID');
-        console.log(oldPos);
-        console.log(newPos);
         newPos = getXYPosition(sqClicked);
-        if ($(this).hasClass(".obstacle")) {
+        /*if ($(this).hasClass(".obstacle")) {
             return;
-        }
+        }*/
         for (let i = Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++) {
             let num = getSquareValue(i, oldPos.y);
             let square = $('.box[boxID = ' + num + ']');
