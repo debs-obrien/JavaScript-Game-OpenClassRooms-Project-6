@@ -323,27 +323,27 @@ function checkWeapon(num) {
             extraPoints(playerActive, playerActiveDiv, scroll, 'scroll', true, 'You just did a seminar and got ', 'got');
             return;
         }
-        if (square.hasClass('whiteBelt')) {
+        if (!hover && square.hasClass('whiteBelt')) {
             changeWeapon(num, 'whiteBelt', whiteBelt);
             return;
         }
-        if (square.hasClass('yellowBelt')) {
+        if (!hover && square.hasClass('yellowBelt')) {
             changeWeapon(num, 'yellowBelt', yellowBelt);
             return;
         }
-        if (square.hasClass('greenBelt')) {
+        if (!hover && square.hasClass('greenBelt')) {
             changeWeapon(num, 'greenBelt', greenBelt);
             return;
         }
-        if (square.hasClass('blueBelt')) {
+        if (!hover && square.hasClass('blueBelt')) {
             changeWeapon(num, 'blueBelt', blueBelt);
             return;
         }
-        if (square.hasClass('redBelt')) {
+        if (!hover && square.hasClass('redBelt')) {
             changeWeapon(num, 'redBelt', redBelt);
             return;
         }
-        if (square.hasClass('blackBelt')) {
+        if (!hover && square.hasClass('blackBelt')) {
             changeWeapon(num, 'blackBelt', blackBelt);
             return;
         }
