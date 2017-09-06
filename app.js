@@ -298,52 +298,52 @@ if there is a weapon see which one and call change Weapon function
 function checkWeapon(num) {
     let square = $('.box[boxID = ' + num + ']');
     if (square.hasClass('weapon')) {
-        if (!hover && square.hasClass('combat1')) {
+        if (square.hasClass('combat1')) {
             whoIsActive();
             extraPoints(playerActive, playerActiveDiv, combat1, 'combat1', true, 'You just beat the penguin and ', 'got');
             return;
         }
-        if (!hover && square.hasClass('combat2')) {
+        if (square.hasClass('combat2')) {
             whoIsActive();
             extraPoints(playerActive, playerActiveDiv, combat2, 'combat2', false, 'You just lost against the penguin and ', 'lost');
             return;
         }
-        if (!hover && square.hasClass('combat3')) {
+        if (square.hasClass('combat3')) {
             whoIsActive();
             extraPoints(playerActive, playerActiveDiv, combat3, 'combat3', true, 'You just beat the penguin and ', 'got');
             return;
         }
-        if (!hover && square.hasClass('combat4')) {
+        if (square.hasClass('combat4')) {
             whoIsActive();
             extraPoints(playerActive, playerActiveDiv, combat4, 'combat4', false, 'You just lost against the penguin and ', 'lost');
             return;
         }
-        if (!hover && square.hasClass('scroll')) {
+        if (square.hasClass('scroll')) {
             whoIsActive();
             extraPoints(playerActive, playerActiveDiv, scroll, 'scroll', true, 'You just did a seminar and got ', 'got');
             return;
         }
-        if (!hover && square.hasClass('whiteBelt')) {
+        if (square.hasClass('whiteBelt')) {
             changeWeapon(num, 'whiteBelt', whiteBelt);
             return;
         }
-        if (!hover && square.hasClass('yellowBelt')) {
+        if (square.hasClass('yellowBelt')) {
             changeWeapon(num, 'yellowBelt', yellowBelt);
             return;
         }
-        if (!hover && square.hasClass('greenBelt')) {
+        if (square.hasClass('greenBelt')) {
             changeWeapon(num, 'greenBelt', greenBelt);
             return;
         }
-        if (!hover && square.hasClass('blueBelt')) {
+        if (square.hasClass('blueBelt')) {
             changeWeapon(num, 'blueBelt', blueBelt);
             return;
         }
-        if (!hover && square.hasClass('redBelt')) {
+        if (square.hasClass('redBelt')) {
             changeWeapon(num, 'redBelt', redBelt);
             return;
         }
-        if (!hover && square.hasClass('blackBelt')) {
+        if (square.hasClass('blackBelt')) {
             changeWeapon(num, 'blackBelt', blackBelt);
             return;
         }
