@@ -23,8 +23,7 @@ let attacked = false;
 let defended = false;
 let player1Defended = false;
 let player2Defended = false;
-let hover=false;
-
+let hover = false;
 
 
 $('.attack').hide();
@@ -39,8 +38,6 @@ $('#start').on('click', function (e) {
     $('#start-game').hide();
     $('body').css("background-color", "white")
 });
-
-
 
 
 function getRandom(num) {
@@ -89,6 +86,7 @@ creates an obstacle method on the prototype GameBoard
 function GameBoard(boardSize) {
     this.boardSize = boardSize;
 }
+
 GameBoard.prototype.createBoard = function () {
     for (let i = 0; i <= boardSize; i += 1) {
         $('#board-game').append('<li class="box" boxID="' + i + '"></li>');
@@ -109,6 +107,7 @@ function Weapon(type, value, itemClass) {
     this.value = value;
     this.itemClass = itemClass;
 }
+
 Weapon.prototype.add = function () {
     addItem(this.itemClass);
 };
@@ -130,7 +129,8 @@ function Player(name, score, itemClass, player, weapon, damage) {
 Player.prototype.add = function () {
     addItem(this.itemClass, this.player);
 };
-function Avatar(active, notActive, attack, win, dead){
+
+function Avatar(active, notActive, attack, win, dead) {
     this.active = active;
     this.notActive = notActive;
     this.attack = attack;
@@ -158,6 +158,7 @@ let player1 = new Player('Player 1', 100, 'player1', 1, 'whiteBelt', 10, 'avatar
 let player2 = new Player('Player 2', 100, 'player2', 2, 'whiteBelt', 10, 'avatar');
 let player1Avatar = new Avatar('src/player1-active.png', 'src/player1-not-active.png', 'src/player1-attack.png', 'src/player1-win.png', 'src/player1-dead.png');
 let player2Avatar = new Avatar('src/player2-active.png', 'src/player2-not-active.png', 'src/player2-attack.png', 'src/player2-win.png', 'src/player2-dead.png');
+
 /*--------------------------------------------------------------------------------------------
 Sets the player Data boxes
 --------------------------------------------------------------------------------------------*/
@@ -166,13 +167,14 @@ function setPlayerData(playerDiv, player) {
     $(playerDiv + ' .score').text(player.score);
     $(playerDiv + ' .belt').addClass(player.weapon);
     $(playerDiv + ' .weapon-value').text(player.damage);
-    $('#player-1-avatar').css('backgroundImage', 'url('+player1Avatar.active+')');
-    $('#player-2-avatar').css('backgroundImage', 'url('+player2Avatar.notActive+')');
+    $('#player-1-avatar').css('backgroundImage', 'url(' + player1Avatar.active + ')');
+    $('#player-2-avatar').css('backgroundImage', 'url(' + player2Avatar.notActive + ')');
 }
+
 /*--------------------------------------------------------------------------------------------
 loads everything needed to make the game
 --------------------------------------------------------------------------------------------*/
-function loadGame(){
+function loadGame() {
     game.createBoard();
     for (let i = 0; i < numObstacles; i += 1) {
         game.obstacles('obstacle');
@@ -194,6 +196,7 @@ function loadGame(){
     setPlayerData('#player-2', player2);
 
 }
+
 loadGame();
 movePlayer();
 /*--------------------------------------------------------------------------------------------
@@ -203,7 +206,8 @@ $('#play-again').on('click', function (e) {
     $('.message').removeClass('win');
     $('body').css('background-color', '#fff');
     $('#game-over').hide();
-    $('.player-container').show().css('background-color', '#fff');;
+    $('.player-container').show().css('background-color', '#fff');
+    ;
     $('#board-game').show();
     player1 = new Player('Player 1', 100, 'player1', 1, 'whiteBelt', 10);
     player2 = new Player('Player 2', 100, 'player2', 2, 'whiteBelt', 10);
@@ -268,23 +272,23 @@ set players weapon = to weapon from square, add the player weapon and new weapon
 --------------------------------------------------------------------------------------------*/
 function changeWeapon(num, belt, weapon) {
     let square = $('.box[boxID = ' + num + ']');
-     whoIsActive();
-        square.removeClass(belt).addClass(playerActive.weapon);
-        removePlayerWeapon(playerActiveDiv, playerActive);
-        playerActive.weapon = belt;
-        addPlayerWeapon(playerActiveDiv, playerActive);
-        changeWeaponValue(playerActiveDiv, playerActive, weapon, weapon.value);
+    whoIsActive();
+    square.removeClass(belt).addClass(playerActive.weapon);
+    removePlayerWeapon(playerActiveDiv, playerActive);
+    playerActive.weapon = belt;
+    addPlayerWeapon(playerActiveDiv, playerActive);
+    changeWeaponValue(playerActiveDiv, playerActive, weapon, weapon.value);
 }
 
-function extraPoints(playerActive, playerActiveDiv, item, itemClass, gain,  text1, text2){
-    if(gain){
+function extraPoints(playerActive, playerActiveDiv, item, itemClass, gain, text1, text2) {
+    if (gain) {
         playerActive.score = playerActive.score + item.value;
-    }else{
+    } else {
         playerActive.score = playerActive.score - item.value;
     }
     $(playerActiveDiv + ' .score').text(playerActive.score);
-    $('.'+itemClass).removeClass(itemClass + ' weapon');
-    $(playerActiveDiv + ' .message').text(text1 + text2 +' ' + item.value);
+    $('.' + itemClass).removeClass(itemClass + ' weapon');
+    $(playerActiveDiv + ' .message').text(text1 + text2 + ' ' + item.value);
 }
 
 
@@ -296,27 +300,27 @@ function checkWeapon(num) {
     if (square.hasClass('weapon')) {
         if (!hover && square.hasClass('combat1')) {
             whoIsActive();
-            extraPoints(playerActive, playerActiveDiv, combat1, 'combat1', true,  'You just beat the penguin and ', 'got');
+            extraPoints(playerActive, playerActiveDiv, combat1, 'combat1', true, 'You just beat the penguin and ', 'got');
             return;
         }
         if (!hover && square.hasClass('combat2')) {
             whoIsActive();
-            extraPoints(playerActive, playerActiveDiv, combat2, 'combat2', false,  'You just lost against the penguin and ', 'lost');
+            extraPoints(playerActive, playerActiveDiv, combat2, 'combat2', false, 'You just lost against the penguin and ', 'lost');
             return;
         }
         if (!hover && square.hasClass('combat3')) {
             whoIsActive();
-            extraPoints(playerActive, playerActiveDiv, combat3, 'combat3', true,  'You just beat the penguin and ', 'got');
+            extraPoints(playerActive, playerActiveDiv, combat3, 'combat3', true, 'You just beat the penguin and ', 'got');
             return;
         }
         if (!hover && square.hasClass('combat4')) {
             whoIsActive();
-            extraPoints(playerActive, playerActiveDiv, combat4, 'combat4', false,  'You just lost against the penguin and ', 'lost');
+            extraPoints(playerActive, playerActiveDiv, combat4, 'combat4', false, 'You just lost against the penguin and ', 'lost');
             return;
         }
         if (!hover && square.hasClass('scroll')) {
             whoIsActive();
-            extraPoints(playerActive, playerActiveDiv, scroll, 'scroll', true,  'You just did a seminar and got ', 'got');
+            extraPoints(playerActive, playerActiveDiv, scroll, 'scroll', true, 'You just did a seminar and got ', 'got');
             return;
         }
         if (square.hasClass('whiteBelt')) {
@@ -358,10 +362,10 @@ check if pass over a weapon and if so leave old weapon and take new weapon
 call fight function to see if they can fight
 --------------------------------------------------------------------------------------------*/
 
-function movePlayer(){
+function movePlayer() {
     //mouseover the square to see if you want to go there
     $('.box').hover(
-        function() {
+        function () {
             hover = true;
             let sqHovered = $(this).attr('boxID');
             newPos = getXYPosition(sqHovered);
@@ -398,19 +402,22 @@ function movePlayer(){
                     }
                 }
             }
-            if (newPos.y === oldPos.y && newPos.x <= oldPos.x + maxMoves && newPos.x >= oldPos.x - maxMoves
-                || newPos.x === oldPos.x && newPos.y <= oldPos.y + maxMoves && newPos.y >= oldPos.y - maxMoves) {
+            if (!attacked) {
+                if (newPos.y === oldPos.y && newPos.x <= oldPos.x + maxMoves && newPos.x >= oldPos.x - maxMoves
+                    || newPos.x === oldPos.x && newPos.y <= oldPos.y + maxMoves && newPos.y >= oldPos.y - maxMoves) {
 
-            if(player1Active){
-                $(this).css('backgroundImage', 'url('+player1Avatar.active+')');
+                    if (player1Active) {
+                        $(this).css('backgroundImage', 'url(' + player1Avatar.active + ')');
 
-            }else{
-                $(this).css('backgroundImage', 'url('+player2Avatar.active+')');
+                    } else {
+                        $(this).css('backgroundImage', 'url(' + player2Avatar.active + ')');
+                    }
+                }
+
             }
-        }
-        }, function() {
-            hover=false;
-                $(this).css('backgroundImage', '');
+        }, function () {
+            hover = false;
+            $(this).css('backgroundImage', '');
         }
     );
 
@@ -497,9 +504,10 @@ function GetPlayerActive(Active, NotActive, ActiveDiv, NotActiveDiv, activeAvata
     playerNotActive = NotActive;
     playerActiveDiv = ActiveDiv;
     playerNotActiveDiv = NotActiveDiv;
-    $(NotActiveDiv  + ' .player-avatar').css('backgroundImage', 'url('+activeAvatar+')')
-    $(ActiveDiv  + ' .player-avatar').css('backgroundImage', 'url('+notActiveAvatar+')')
+    $(NotActiveDiv + ' .player-avatar').css('backgroundImage', 'url(' + activeAvatar + ')')
+    $(ActiveDiv + ' .player-avatar').css('backgroundImage', 'url(' + notActiveAvatar + ')')
 }
+
 /*--------------------------------------------------------------------------------------------
 if player 1 is active set values else set player 2 values
 --------------------------------------------------------------------------------------------*/
@@ -529,6 +537,7 @@ function message(playerActiveDiv, playerNotActiveDiv, playerActive, playerNotAct
     $(playerNotActiveDiv + ' .message').text(playerActive.name + ' just hit you  - ' + playerActive.damage + ' points');
     $(playerActiveDiv + ' .message').text('And the fight begins');
 }
+
 /*--------------------------------------------------------------------------------------------
 if game is over set values depending on which player is active
 --------------------------------------------------------------------------------------------*/
@@ -538,12 +547,12 @@ function gameOver(playerActiveDiv, playerNotActiveDiv, playerActive, playerNotAc
     $(playerNotActiveDiv + ' .message').text('You Lose');
     $(playerNotActiveDiv + ' .attack').hide();
     $(playerNotActiveDiv + ' .defend').hide();
-    if(player1Active){
-        $(playerNotActiveDiv + ' .player-avatar').css('backgroundImage', 'url('+player1Avatar.dead+')');
-        $(playerActiveDiv + ' .player-avatar').css('backgroundImage', 'url('+player2Avatar.win+')').css('width', '150px').css('height', '150px');
-        }else{
-        $(playerNotActiveDiv + ' .player-avatar').css('backgroundImage', 'url('+player2Avatar.dead+')');
-        $(playerActiveDiv + ' .player-avatar').css('backgroundImage', 'url('+player1Avatar.win+')').css('width', '150px').css('height', '150px');
+    if (player1Active) {
+        $(playerNotActiveDiv + ' .player-avatar').css('backgroundImage', 'url(' + player1Avatar.dead + ')');
+        $(playerActiveDiv + ' .player-avatar').css('backgroundImage', 'url(' + player2Avatar.win + ')').css('width', '150px').css('height', '150px');
+    } else {
+        $(playerNotActiveDiv + ' .player-avatar').css('backgroundImage', 'url(' + player2Avatar.dead + ')');
+        $(playerActiveDiv + ' .player-avatar').css('backgroundImage', 'url(' + player1Avatar.win + ')').css('width', '150px').css('height', '150px');
     }
     $('.box').remove();
     $('#board-game').hide();
@@ -553,6 +562,7 @@ function gameOver(playerActiveDiv, playerNotActiveDiv, playerActive, playerNotAc
     $('.message').addClass('win');
     $('.winner').text(playerActive.name + ' you are the WINNER');
 }
+
 /*--------------------------------------------------------------------------------------------
 if player can only attack show attack button and hide defend depending on which player is active
 --------------------------------------------------------------------------------------------*/
@@ -562,17 +572,20 @@ function CanOnlyAttack(playerActiveDiv, playerNotActiveDiv) {
     $(playerNotActiveDiv + ' .defend').hide();
     $(playerActiveDiv + ' .defend').hide();
 }
+
 /*--------------------------------------------------------------------------------------------
 once fight begins set move to false so player can't move and can only fight
 --------------------------------------------------------------------------------------------*/
 
 
 function fight(newPos, oldPos) {
+
     if (newPos.y === oldPos.y && newPos.x <= oldPos.x + 1 && newPos.x >= oldPos.x - 1
         || newPos.x === oldPos.x && newPos.y <= oldPos.y + 1 && newPos.y >= oldPos.y - 1) {
         move = false;
+        hover = false;
         $('.box').css('cursor', 'not-allowed');
-
+        $(this).css('backgroundImage', '');
 
         for (let i = Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++) {
             let num = getSquareValue(i, oldPos.y);
@@ -594,6 +607,7 @@ function fight(newPos, oldPos) {
         }
     }
 }
+
 /*--------------------------------------------------------------------------------------------
 Change the score when attacked or defended
 --------------------------------------------------------------------------------------------*/
@@ -607,6 +621,7 @@ function changeScore(playerNotActiveDiv, playerActive, playerNotActive) {
 
     $(playerNotActiveDiv + ' .score').text(playerNotActive.score);
 }
+
 /*--------------------------------------------------------------------------------------------
 if attacked is true, see who is active and change score, show buttons and call message
 then set player to inactive and defended to false incase they defended last time giving them
@@ -618,8 +633,8 @@ function attack() {
         changeScore(playerNotActiveDiv, playerActive, playerNotActive);
         CanAttackAndDefend(playerActiveDiv, playerNotActiveDiv);
         message(playerActiveDiv, playerNotActiveDiv, playerActive, playerNotActive);
-        $('#player-1-avatar').css('backgroundImage', 'url('+player1Avatar.attack+')');
-        $('#player-2-avatar').css('backgroundImage', 'url('+player2Avatar.attack+')');
+        $('#player-1-avatar').css('backgroundImage', 'url(' + player1Avatar.attack + ')');
+        $('#player-2-avatar').css('backgroundImage', 'url(' + player2Avatar.attack + ')');
         if (player1Active) {
             player1Defended = false;
             player1Active = false;
@@ -632,6 +647,7 @@ function attack() {
         }
     }
 }
+
 /*--------------------------------------------------------------------------------------------
 if player clicks defend see who is active and set values
 if both players choose to defend hide defend option and make them attack

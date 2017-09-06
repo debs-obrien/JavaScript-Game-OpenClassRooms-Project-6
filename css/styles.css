@@ -1,77 +1,91 @@
-body{
-    background-color:#ff6666;
+body {
+    background-color: #ff6666;
     font-family: "Montserrat", sans-serif;
 }
-button{
-    cursor:pointer;
+
+button {
+    cursor: pointer;
 }
-#start-game, #game-over{
+
+#start-game, #game-over {
     margin: 0 auto;
     padding: 80px;
-    text-align:center
+    text-align: center
 }
-#start-game h1, #game-over h1{
+
+#start-game h1, #game-over h1 {
     font-size: 6em;
-    text-align:center;
-    color:#fff;
+    text-align: center;
+    color: #fff;
     line-height: 0.85;
     margin: 0 auto;
     width: 2.75em;
 }
-#game-over h2{
+
+#game-over h2 {
     font-size: 2em;
 }
-#start-game p{
-    text-align:left;
-    font-size:1.2em;
-    color:#333;
-    padding:2px;
-    margin: 30px 0;
+
+#start-game p {
+    text-align: left;
+    font-size: 1.2em;
+    color: #333;
+    padding: 2px;
+    margin: 20px 0;
 }
-#start-game button, #game-over button{
+
+#start-game button, #game-over button {
     font-size: 2em;
-    text-align:center;
+    text-align: center;
     background: #ffd67a;
     border-radius: 28px;
-    color:#4a2323;
+    color: #4a2323;
     padding: 10px 40px 10px 40px;
     text-decoration: none;
     border: none;
 }
 
-#start-game button:hover{
+#start-game button:hover {
     background: #753c3c;
-    color:#fff;
+    color: #fff;
 }
-li{
-    list-style-type:none;
+
+li {
+    list-style-type: none;
 }
-.container{
-    display:flex;
+
+.container {
+    display: flex;
     justify-content: space-between;
 }
-.player-container{
-    width:200px;
-    display:flex;
-    text-align:center;
+
+.player-container {
+    width: 200px;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    height: 600px;
+}
+
+.player-container .player, .player-container .weapon {
+    display: flex;
+    text-align: center;
     flex-direction: column;
 }
-.player-container .player, .player-container .weapon{
-    display:flex;
-    text-align:center;
-    flex-direction: column;
-}
-.player-container .player-avatar, .player-container .belt{
+
+.player-container .player-avatar, .player-container .belt {
     margin: 0 auto;
 }
+
 #board-game {
     min-width: 760px;
     max-width: 760px;
     padding: .5rem;
-    background-image:url('../src/bg-ninja3.jpg');
+    background-image: url('../src/bg-ninja3.jpg');
     background-size: cover;
     border-radius: 5px;
 }
+
 #board-game .box {
     border-radius: 4px;
     width: 75px;
@@ -80,111 +94,134 @@ li{
     margin-right: 1px;
     margin-bottom: 1px;
     box-sizing: border-box;
-    cursor:pointer;
+    cursor: pointer;
 }
 
-.player-avatar, .belt, .box{
+.player-avatar, .belt, .box {
     background-repeat: no-repeat;
     background-position: center;
 }
 
-#board-game .obstacle{
-    background-image:url('../src/tree.png');
+#board-game .obstacle {
+    background-image: url('../src/tree.png');
 }
 
-
-#board-game .weapon.blackBelt, .blackBelt{
-    background-image:url('../src/Black_Ninja_Belt_icon.png');
-}
-#board-game .weapon.redBelt, .redBelt{
-    background-image:url('../src/Red_Ninja_Belt_icon.png');
-}
-#board-game .weapon.blueBelt, .blueBelt{
-    background-image:url('../src/Blue_Ninja_Belt_icon.png');
-}
-#board-game .weapon.greenBelt, .greenBelt{
-    background-image:url('../src/Green_Ninja_Belt_icon.png');
-}
-#board-game .weapon.yellowBelt, .yellowBelt{
-    background-image:url('../src/Yellow_Ninja_Belt_icon.png');
-}
-#board-game .weapon.whiteBelt, .whiteBelt{
-    background-image:url('../src/White_Ninja_Belt_icon.png');
-}
-#board-game .combat1{
-    background-image:url('../src/ninja-penguin.png');
-}
-#board-game .combat2{
-    background-image:url('../src/ninja-penguin-2.png');
-}
-#board-game .combat3{
-    background-image:url('../src/ninja-penguin-2.png');
-}
-#board-game .scroll{
-    background-image:url('../src/ninja-scroll.png');
-}
-#board-game .player1{
-    background-image:url('../src/player1-not-active.png') !important;
-}
-#board-game .player2{
-    background-image:url('../src/player2.png') !important;
+#board-game .weapon.blackBelt, .blackBelt {
+    background-image: url('../src/Black_Ninja_Belt_icon.png');
 }
 
-#player-1, #player-2{
-    //border:1px solid black;
-    padding:20px;
+#board-game .weapon.redBelt, .redBelt {
+    background-image: url('../src/Red_Ninja_Belt_icon.png');
 }
-#player-1 .player, #player-2 .player{
-    font-size:20px;
-    text-align:center;
+
+#board-game .weapon.blueBelt, .blueBelt {
+    background-image: url('../src/Blue_Ninja_Belt_icon.png');
 }
+
+#board-game .weapon.greenBelt, .greenBelt {
+    background-image: url('../src/Green_Ninja_Belt_icon.png');
+}
+
+#board-game .weapon.yellowBelt, .yellowBelt {
+    background-image: url('../src/Yellow_Ninja_Belt_icon.png');
+}
+
+#board-game .weapon.whiteBelt, .whiteBelt {
+    background-image: url('../src/White_Ninja_Belt_icon.png');
+}
+
+#board-game .combat1 {
+    background-image: url('../src/ninja-penguin.png');
+}
+
+#board-game .combat2 {
+    background-image: url('../src/ninja-penguin-2.png');
+}
+
+#board-game .combat3 {
+    background-image: url('../src/ninja-penguin-2.png');
+}
+
+#board-game .scroll {
+    background-image: url('../src/ninja-scroll.png');
+}
+
+#board-game .player1 {
+    background-image: url('../src/player1-not-active.png') !important;
+}
+
+#board-game .player2 {
+    background-image: url('../src/player2.png') !important;
+}
+
+#player-1, #player-2 {
+/ / border: 1 px solid black;
+    padding: 20px;
+}
+
+#player-1 .player, #player-2 .player {
+    font-size: 20px;
+    text-align: center;
+}
+
 #player-1 .player-avatar, #player-2 .player-avatar,
-#player-1 .belt, #player-2 .belt{
+#player-1 .belt, #player-2 .belt {
     width: 75px;
     height: 75px;
 }
-.player-container{
-    background-image:url('../src/scroll-bg4.png');
-    background-repeat:no-repeat;
+
+.player-container {
+    background-image: url('../src/scroll-bg4.png');
+    background-repeat: no-repeat;
 }
-.player-container button{
-    color:#fff;
+
+.player-container button {
+    color: #fff;
     font-size: 1em;
     border-radius: 15px;
     border: none;
-    padding:10px;
-    margin:10px;
-}
-.player-container .message.win{
-    font-size:2em;
-}
-#player-1 .player-name{
-    color:#ff6969;
-}
-#player-2 .player-name{
-    color:#4e2152;
-}
-#player-1 .attack{
-    background-color: #ff6969;
-}
-#player-1 .defend{
-    background-color: #753c3c;
-}
-#player-1 .attack:hover, #player-1 .defend:hover{
-    background-color: #ffe9ad;
-    color:#48524e;
-}
-#player-2 .attack{
-    background-color: #4e2152;
-}
-#player-2 .defend{
-    background-color: #48524e;
-}
-#player-2 .attack:hover, #player-2 .defend:hover{
-    background-color: #ffe9ad;
-    color:#48524e;
+    padding: 10px;
+    margin: 10px;
 }
 
-#player-1 .score, #player-2 .score{
-    font-size:1.4em;
+.player-container .message.win {
+    font-size: 2em;
+}
+
+#player-1 .player-name {
+    color: #ff6969;
+}
+
+#player-2 .player-name {
+    color: #4e2152;
+}
+
+#player-1 .attack {
+    background-color: #ff6969;
+}
+
+#player-1 .defend {
+    background-color: #753c3c;
+}
+
+#player-1 .attack:hover, #player-1 .defend:hover {
+    background-color: #ffe9ad;
+    color: #48524e;
+}
+
+#player-2 .attack {
+    background-color: #4e2152;
+}
+
+#player-2 .defend {
+    background-color: #48524e;
+}
+
+#player-2 .attack:hover, #player-2 .defend:hover {
+    background-color: #ffe9ad;
+    color: #48524e;
+}
+
+#player-1 .score, #player-2 .score {
+    font-size: 1.4em;
 }
