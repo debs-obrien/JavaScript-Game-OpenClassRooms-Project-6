@@ -131,6 +131,14 @@ function Player(name, score, itemClass, player, weapon, damage, avatar) {
 Player.prototype.add = function () {
     addItem(this.itemClass, this.player);
 };
+function Avatar(active, notActive, attack, win, dead){
+    this.active = active;
+    this.notActive = notActive;
+    this.attack = attack;
+    this.win = win;
+    this.dead = dead;
+
+}
 
 /*--------------------------------------------------------------------------------------------
 Creates the weapons and players
@@ -144,7 +152,8 @@ let yellowBelt = new Weapon('YellowBelt', 20, 'yellowBelt weapon');
 let whiteBelt = new Weapon('WhiteBelt', 10, 'whiteBelt weapon');
 let player1 = new Player('Player 1', 100, 'player1', 1, 'whiteBelt', 10, 'avatar');
 let player2 = new Player('Player 2', 100, 'player2', 2, 'whiteBelt', 10, 'avatar');
-
+let player1Avatar = new Avatar('src/player1-active.png', 'src/player1-not-active.png', 'src/player1-attack.png', 'src/player1-win.png', 'src/player1-dead.png');
+let player2Avatar = new Avatar('src/player2-active.png', 'src/player2-not-active.png', 'src/player2-attack.png', 'src/player2-win.png', 'src/player2-dead.png');
 /*--------------------------------------------------------------------------------------------
 Sets the player Data boxes
 --------------------------------------------------------------------------------------------*/
@@ -153,6 +162,8 @@ function setPlayerData(playerDiv, player) {
     $(playerDiv + ' .score').text(player.score);
     $(playerDiv + ' .belt').addClass(player.weapon);
     $(playerDiv + ' .weapon-value').text(player.damage);
+    $('#player-1-avatar').css('backgroundImage', 'url('+player1Avatar.active+')');
+    $('#player-2-avatar').css('backgroundImage', 'url('+player2Avatar.notActive+')');
     //$(playerDiv + ' .player-avatar').addClass(player.avatar);
     //TODO ADD AVATARS AS OBJECTS DELETE ADD CLASS REMOVE CLASS FOR AVATARS
 }
@@ -173,6 +184,7 @@ function loadGame(){
     player2.add();
     setPlayerData('#player-1', player1);
     setPlayerData('#player-2', player2);
+
 }
 loadGame();
 /*--------------------------------------------------------------------------------------------
@@ -182,7 +194,7 @@ $('#play-again').on('click', function (e) {
     $('.message').removeClass('win');
     $('body').css('background-color', '#fff');
     $('#game-over').hide();
-    $('.player-container').show();
+    $('.player-container').show().css('background-color', '#fff');;
     $('#board-game').show();
     player1 = new Player('Player 1', 100, 'player1', 1, 'whiteBelt', 10);
     player2 = new Player('Player 2', 100, 'player2', 2, 'whiteBelt', 10);
@@ -192,13 +204,10 @@ $('#play-again').on('click', function (e) {
     defended = false;
     player1Defended = false;
     player2Defended = false;
-    $(playerNotActiveDiv + ' .player-avatar').removeClass('dead');
-    $(playerActiveDiv + ' .player-avatar').removeClass('win');
     $(playerNotActiveDiv + ' .message').text('');
     $(playerActiveDiv + ' .message').text('');
-    $(playerActiveDiv).addClass('active');
-    $(playerNotActiveDiv).removeClass('active');
-    $('.player-container').css('background-color', '#fff');
+    $('.player-name').css('color', '');
+    $('.player-avatar').css('width', '75px').css('height', '75px');
     loadGame();
     playerPosition = getPosition('.player1');
     oldPos = getXYPosition(playerPosition);
@@ -369,15 +378,15 @@ function movePlayer(){
                     }
                 }
             if(player1Active){
-                $(this).addClass("player1-hover")
+                $(this).css('backgroundImage', 'url('+player1Avatar.active+')');
+
             }else{
-                $(this).addClass("player2-hover")
+                $(this).css('backgroundImage', 'url('+player2Avatar.active+')');
             }
         }
         }, function() {
             hover=false;
-                $(this).removeClass("player1-hover");
-                $(this).removeClass("player2-hover");
+                $(this).css('backgroundImage', '');
         }
     );
 
@@ -386,8 +395,6 @@ function movePlayer(){
         hover = false;
         let sqClicked = $(this).attr('boxID');
         newPos = getXYPosition(sqClicked);
-        $( this ).removeClass("player1-hover");
-        $( this ).removeClass("player2-hover");
         if ($(this).hasClass(".obstacle")) {
             return;
         }
@@ -461,22 +468,22 @@ function movePlayer(){
 /*--------------------------------------------------------------------------------------------
 get the player that is active
 --------------------------------------------------------------------------------------------*/
-function GetPlayerActive(Active, NotActive, ActiveDiv, NotActiveDiv) {
+function GetPlayerActive(Active, NotActive, ActiveDiv, NotActiveDiv, activeAvatar, notActiveAvatar) {
     playerActive = Active;
     playerNotActive = NotActive;
     playerActiveDiv = ActiveDiv;
     playerNotActiveDiv = NotActiveDiv;
-    $(NotActiveDiv).addClass('active');
-    $(ActiveDiv).removeClass('active');
+    $(NotActiveDiv  + ' .player-avatar').css('backgroundImage', 'url('+activeAvatar+')')
+    $(ActiveDiv  + ' .player-avatar').css('backgroundImage', 'url('+notActiveAvatar+')')
 }
 /*--------------------------------------------------------------------------------------------
 if player 1 is active set values else set player 2 values
 --------------------------------------------------------------------------------------------*/
 function whoIsActive() {
     if (player1Active) {
-        GetPlayerActive(player1, player2, '#player-1', '#player-2');
+        GetPlayerActive(player1, player2, '#player-1', '#player-2', player2Avatar.active, player1Avatar.notActive);
     } else {
-        GetPlayerActive(player2, player1, '#player-2', '#player-1');
+        GetPlayerActive(player2, player1, '#player-2', '#player-1', player1Avatar.active, player2Avatar.notActive);
     }
 }
 
@@ -501,21 +508,24 @@ function message(playerActiveDiv, playerNotActiveDiv, playerActive, playerNotAct
 /*--------------------------------------------------------------------------------------------
 if game is over set values depending on which player is active
 --------------------------------------------------------------------------------------------*/
-function gameOver(playerActiveDiv, playerNotActiveDiv, playerActive, playerNotActive) {
+function gameOver(playerActiveDiv, playerNotActiveDiv, playerActive, playerNotActive,) {
     $(playerNotActiveDiv + ' .score').text('0');
     $(playerActiveDiv + ' .message').text('You Win');
     $(playerNotActiveDiv + ' .message').text('You Lose');
     $(playerNotActiveDiv + ' .attack').hide();
     $(playerNotActiveDiv + ' .defend').hide();
-    $(playerNotActiveDiv + ' .player-avatar').removeClass('avatar-attack');
-    $(playerNotActiveDiv + ' .player-avatar').addClass('dead');
-    $(playerActiveDiv + ' .player-avatar').removeClass('avatar-attack');
-    $(playerActiveDiv + ' .player-avatar').addClass('win');
+    if(player1Active){
+        $(playerNotActiveDiv + ' .player-avatar').css('backgroundImage', 'url('+player1Avatar.dead+')');
+        $(playerActiveDiv + ' .player-avatar').css('backgroundImage', 'url('+player2Avatar.win+')').css('width', '150px').css('height', '150px');
+        }else{
+        $(playerNotActiveDiv + ' .player-avatar').css('backgroundImage', 'url('+player2Avatar.dead+')');
+        $(playerActiveDiv + ' .player-avatar').css('backgroundImage', 'url('+player1Avatar.win+')').css('width', '150px').css('height', '150px');
+    }
     $('.box').remove();
     $('#board-game').hide();
     $('#game-over').show();
     $('body').css('background-color', '#ff6666');
-    $('.player-container').css('background-color', '#E8E8E8');
+    $('.player-name').css('color', '#fff');
     $('.message').addClass('win');
     $('.winner').text(playerActive.name + ' you are the WINNER');
 }
@@ -538,7 +548,7 @@ function fight(newPos, oldPos) {
         || newPos.x === oldPos.x && newPos.y <= oldPos.y + 1 && newPos.y >= oldPos.y - 1) {
         move = false;
         $('.box').css('cursor', 'not-allowed');
-        $('.player-avatar').addClass('avatar-attack');
+
 
         for (let i = Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++) {
             let num = getSquareValue(i, oldPos.y);
@@ -584,7 +594,8 @@ function attack() {
         changeScore(playerNotActiveDiv, playerActive, playerNotActive);
         CanAttackAndDefend(playerActiveDiv, playerNotActiveDiv);
         message(playerActiveDiv, playerNotActiveDiv, playerActive, playerNotActive);
-
+        $('#player-1-avatar').css('backgroundImage', 'url('+player1Avatar.attack+')');
+        $('#player-2-avatar').css('backgroundImage', 'url('+player2Avatar.attack+')');
         if (player1Active) {
             player1Defended = false;
             player1Active = false;

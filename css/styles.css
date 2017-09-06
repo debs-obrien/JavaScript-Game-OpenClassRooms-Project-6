@@ -80,17 +80,14 @@ li{
     margin-bottom: 1px;
     cursor: pointer;
     box-sizing: border-box;
+
 }
 
-#board-game .blackBelt,#board-game .blueBelt,#board-game .redBelt,
-#board-game .greenBelt,#board-game .yellowBelt,
-#board-game .whiteBelt, #board-game .obstacle,
-#board-game .player1, #board-game .player2,
-#player-1 .player-avatar, #player-2 .player-avatar,
-#player-1 .belt, #player-2 .belt, .player1-hover, .player2-hover{
+.player-avatar, .belt, .box{
     background-repeat: no-repeat;
     background-position: center;
 }
+
 #board-game .obstacle{
     background-image:url('../src/Stone.png');
 }
@@ -122,46 +119,6 @@ li{
     background-image:url('../src/player2.png') !important;
 }
 
-/*#board-game .player2 .dead {
-    background-image: url('../src/ninja_2_dead.png');
-    height: 75px;
-    width: 75px;
-    background-position: 75px 0px;
-    animation: run .8s steps(10) infinite;
-}
-#board-game .player2 .run{
-    background-image: url('../src/ninja_2_run.png');
-    height: 75px;
-    width: 75px;
-    background-position: 75px 0px;
-    animation: run 0.8s steps(10);
-}
-@keyframes run {
-
-    from { background-position:  20px; }
-    to { background-position: -707px; }
-
-
-}
-@keyframes attack {
-    100% {
-        background-position: -75px;
-    }
-}
-
-#board-game .player2 .attack{
-    background-image: url('../src/ninja_2_attack.png');
-    height: 75px;
-    width: 75px;
-    background-position: 10px 0px;
-    animation: attack .9s steps(10);
-}
-
-@keyframes attack {
-    100% {
-        background-position: -844px;
-    }
-}*/
 #player-1, #player-2{
     //border:1px solid black;
     padding:20px;
@@ -174,62 +131,6 @@ li{
 #player-1 .belt, #player-2 .belt{
     width: 75px;
     height: 75px;
-}
-.player1{
-    background-image:url('../src/player1-active.png');
-}
-
-.player1.active{
-    background-image:url('../src/player1-active.png');
-}
-.player1.not-active{
-    background-image:url('../src/player1-active.png');
-}
-#player-1 .player-avatar{
-    background-image:url('../src/player1-not-active.png');
-}
-#player-2 .player-avatar.dead{
-    background-image:url('../src/player2-dead.png');
-}
-.player1-hover{
-    background-image:url('../src/player1-active.png') !important;
-}
-#player-1 .player-avatar{
-    background-image:url('../src/player1-not-active.png');
-}
-#player-1.active .player-avatar{
-    background-image:url('../src/player1-active.png');
-}
-#player-1.active .player-avatar.avatar-attack{
-    background-image:url('../src/player1-attack.png');
-}
-#player-1 .player-avatar.dead{
-    background-image:url('../src/player1-dead.png');
-}
-#player-1 .player-avatar.win{
-    background-image:url('../src/player1-win.png');
-    height:149px;
-    width:150px;
-}
-.player2-hover{
-    background-image:url('../src/player2-active.png') !important;
-}
-#player-2 .player-avatar{
-    background-image:url('../src/player2-not-active.png');
-}
-#player-2.active .player-avatar{
-    background-image:url('../src/player2-active.png');
-}
-#player-2.active .player-avatar.avatar-attack{
-    background-image:url('../src/player2-attack.png');
-}
-#player-2 .player-avatar.dead{
-    background-image:url('../src/player2-dead.png');
-}
-#player-2 .player-avatar.win{
-    background-image:url('../src/player2-win.png');
-    height:152px;
-    width:149px;
 }
 .player-container button{
     color:#fff;
