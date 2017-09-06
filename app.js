@@ -23,6 +23,7 @@ let attacked = false;
 let defended = false;
 let player1Defended = false;
 let player2Defended = false;
+let hover=false;
 
 
 
@@ -249,12 +250,18 @@ set players weapon = to weapon from square, add the player weapon and new weapon
 --------------------------------------------------------------------------------------------*/
 function changeWeapon(num, belt, weapon) {
     let square = $('.box[boxID = ' + num + ']');
-    whoIsActive();
-    square.removeClass(belt).addClass(playerActive.weapon);
-    removePlayerWeapon(playerActiveDiv, playerActive);
-    playerActive.weapon = belt;
-    addPlayerWeapon(playerActiveDiv, playerActive);
-    changeWeaponValue(playerActiveDiv, playerActive, weapon, weapon.value)
+
+    if(!hover){
+        whoIsActive();
+        square.removeClass(belt).addClass(playerActive.weapon);
+        removePlayerWeapon(playerActiveDiv, playerActive);
+        playerActive.weapon = belt;
+        addPlayerWeapon(playerActiveDiv, playerActive);
+        changeWeaponValue(playerActiveDiv, playerActive, weapon, weapon.value);
+    }else{
+        //playerActive.weapon = belt;
+        //changeWeaponValue(playerActiveDiv, playerActive, weapon, weapon.value)
+    }
 }
 
 /*--------------------------------------------------------------------------------------------
@@ -292,6 +299,7 @@ function checkWeapon(num) {
 
 
 
+
 /*--------------------------------------------------------------------------------------------
 on click check if new between old position and new position there is an obstacle
 if there is return - dont let player move
@@ -305,32 +313,85 @@ call fight function to see if they can fight
 --------------------------------------------------------------------------------------------*/
 movePlayer();
 function movePlayer(){
-    if ($(this).hasClass(".obstacle")) {
-        return;
-    }
     //mouseover the square to see if you want to go there
     $('.box').hover(
         function() {
+            hover = true;
+            let sqHovered = $(this).attr('boxID');
+            newPos = getXYPosition(sqHovered);
 
-            if(player1Active){
-                $( this ).addClass("player1-hover")
-            }else{
-                $( this ).addClass("player2-hover")
+            for (let i = Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++) {
+                let num = getSquareValue(i, oldPos.y);
+                let square = $('.box[boxID = ' + num + ']');
+                if (square.hasClass('obstacle')) {
+                    return;
+                }
+                if (player1Active) {
+                    if (square.hasClass('player2')) {
+                        return;
+                    }
+                } else {
+                    if (square.hasClass('player1')) {
+                        return;
+                    }
+                }
             }
+            for (let i = Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++) {
+                let num = getSquareValue(oldPos.x, i);
+                let square = $('.box[boxID = ' + num + ']');
+                if (square.hasClass('obstacle')) {
+                    return;
+                }
+                if (player1Active) {
+                    if (square.hasClass('player2')) {
+                        return;
+                    }
+                } else {
+                    if (square.hasClass('player1')) {
+                        return;
+                    }
+                }
+            }
+            if (newPos.y === oldPos.y && newPos.x <= oldPos.x + maxMoves && newPos.x >= oldPos.x - maxMoves
+                || newPos.x === oldPos.x && newPos.y <= oldPos.y + maxMoves && newPos.y >= oldPos.y - maxMoves) {
+                for (let i = Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++) {
+                    let num = getSquareValue(i, oldPos.y);
+                    let square = $('.box[boxID = ' + num + ']');
+                    if (square.hasClass('weapon')) {
+                        checkWeapon(num);
+                    }
+                }
+                for (let i = Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++) {
+                    let num = getSquareValue(oldPos.x, i);
+                    let square = $('.box[boxID = ' + num + ']');
+                    if (square.hasClass('weapon')) {
+                        checkWeapon(num);
+                    }
+                }
+            if(player1Active){
+                $(this).addClass("player1-hover")
+            }else{
+                $(this).addClass("player2-hover")
+            }
+        }
         }, function() {
-                $( this ).removeClass("player1-hover")
-                $( this ).removeClass("player2-hover")
+            hover=false;
+                $(this).removeClass("player1-hover");
+                $(this).removeClass("player2-hover");
         }
     );
 
 
     $('.box').on('click', function (e) {
-
+        hover = false;
         let sqClicked = $(this).attr('boxID');
         newPos = getXYPosition(sqClicked);
-        /*if ($(this).hasClass(".obstacle")) {
+        $( this ).removeClass("player1-hover");
+        $( this ).removeClass("player2-hover");
+        if ($(this).hasClass(".obstacle")) {
             return;
-        }*/
+        }
+
         for (let i = Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++) {
             let num = getSquareValue(i, oldPos.y);
             let square = $('.box[boxID = ' + num + ']');
