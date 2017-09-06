@@ -85,7 +85,6 @@ Creates a createBoard method on the Gameboard prototype
 Adds the html and css as needed by the size of the board defined above
 The squares are then pushed to an array so we can later use for calculating positions.
 creates an obstacle method on the prototype GameBoard
-
 --------------------------------------------------------------------------------------------*/
 function GameBoard(boardSize) {
     this.boardSize = boardSize;
@@ -114,18 +113,18 @@ Weapon.prototype.add = function () {
     addItem(this.itemClass);
 };
 
+
 /*--------------------------------------------------------------------------------------------
 creates a Player class
 creates a add method on the prototype Player
 --------------------------------------------------------------------------------------------*/
-function Player(name, score, itemClass, player, weapon, damage, avatar) {
+function Player(name, score, itemClass, player, weapon, damage) {
     this.name = name;
     this.score = score;
     this.itemClass = itemClass;
     this.player = player;
     this.weapon = weapon;
     this.damage = damage;
-    this.avatar = avatar;
 }
 
 Player.prototype.add = function () {
@@ -150,6 +149,11 @@ let blueBelt = new Weapon('BlueBelt', 40, 'blueBelt weapon');
 let greenBelt = new Weapon('GreenBelt', 30, 'greenBelt weapon');
 let yellowBelt = new Weapon('YellowBelt', 20, 'yellowBelt weapon');
 let whiteBelt = new Weapon('WhiteBelt', 10, 'whiteBelt weapon');
+let combat1 = new Weapon('combat1', 40, 'combat1 weapon');
+let combat2 = new Weapon('combat2', 20, 'combat2 weapon');
+let combat3 = new Weapon('combat3', 30, 'combat3 weapon');
+let combat4 = new Weapon('combat4', 30, 'combat3 weapon');
+let scroll = new Weapon('scroll', 20, 'scroll weapon');
 let player1 = new Player('Player 1', 100, 'player1', 1, 'whiteBelt', 10, 'avatar');
 let player2 = new Player('Player 2', 100, 'player2', 2, 'whiteBelt', 10, 'avatar');
 let player1Avatar = new Avatar('src/player1-active.png', 'src/player1-not-active.png', 'src/player1-attack.png', 'src/player1-win.png', 'src/player1-dead.png');
@@ -164,8 +168,6 @@ function setPlayerData(playerDiv, player) {
     $(playerDiv + ' .weapon-value').text(player.damage);
     $('#player-1-avatar').css('backgroundImage', 'url('+player1Avatar.active+')');
     $('#player-2-avatar').css('backgroundImage', 'url('+player2Avatar.notActive+')');
-    //$(playerDiv + ' .player-avatar').addClass(player.avatar);
-    //TODO ADD AVATARS AS OBJECTS DELETE ADD CLASS REMOVE CLASS FOR AVATARS
 }
 /*--------------------------------------------------------------------------------------------
 loads everything needed to make the game
@@ -175,6 +177,7 @@ function loadGame(){
     for (let i = 0; i < numObstacles; i += 1) {
         game.obstacles('obstacle');
     }
+
     blackBelt.add();
     redBelt.add();
     blueBelt.add();
@@ -182,11 +185,17 @@ function loadGame(){
     yellowBelt.add();
     player1.add();
     player2.add();
+    combat1.add();
+    combat2.add();
+    combat3.add();
+    combat4.add();
+    scroll.add();
     setPlayerData('#player-1', player1);
     setPlayerData('#player-2', player2);
 
 }
 loadGame();
+movePlayer();
 /*--------------------------------------------------------------------------------------------
 When game is over click play again and reset values to create new board and play again
 --------------------------------------------------------------------------------------------*/
@@ -259,19 +268,25 @@ set players weapon = to weapon from square, add the player weapon and new weapon
 --------------------------------------------------------------------------------------------*/
 function changeWeapon(num, belt, weapon) {
     let square = $('.box[boxID = ' + num + ']');
-
-    if(!hover){
-        whoIsActive();
+     whoIsActive();
         square.removeClass(belt).addClass(playerActive.weapon);
         removePlayerWeapon(playerActiveDiv, playerActive);
         playerActive.weapon = belt;
         addPlayerWeapon(playerActiveDiv, playerActive);
         changeWeaponValue(playerActiveDiv, playerActive, weapon, weapon.value);
-    }else{
-        //playerActive.weapon = belt;
-        //changeWeaponValue(playerActiveDiv, playerActive, weapon, weapon.value)
-    }
 }
+
+function extraPoints(playerActive, playerActiveDiv, item, itemClass, gain,  text1, text2){
+    if(gain){
+        playerActive.score = playerActive.score + item.value;
+    }else{
+        playerActive.score = playerActive.score - item.value;
+    }
+    $(playerActiveDiv + ' .score').text(playerActive.score);
+    $('.'+itemClass).removeClass(itemClass + ' weapon');
+    $(playerActiveDiv + ' .message').text(text1 + text2 +' ' + item.value);
+}
+
 
 /*--------------------------------------------------------------------------------------------
 if there is a weapon see which one and call change Weapon function
@@ -279,6 +294,31 @@ if there is a weapon see which one and call change Weapon function
 function checkWeapon(num) {
     let square = $('.box[boxID = ' + num + ']');
     if (square.hasClass('weapon')) {
+        if (!hover && square.hasClass('combat1')) {
+            whoIsActive();
+            extraPoints(playerActive, playerActiveDiv, combat1, 'combat1', true,  'You just beat the penguin and ', 'got');
+            return;
+        }
+        if (!hover && square.hasClass('combat2')) {
+            whoIsActive();
+            extraPoints(playerActive, playerActiveDiv, combat2, 'combat2', false,  'You just lost against the penguin and ', 'lost');
+            return;
+        }
+        if (!hover && square.hasClass('combat3')) {
+            whoIsActive();
+            extraPoints(playerActive, playerActiveDiv, combat3, 'combat3', true,  'You just beat the penguin and ', 'got');
+            return;
+        }
+        if (!hover && square.hasClass('combat4')) {
+            whoIsActive();
+            extraPoints(playerActive, playerActiveDiv, combat4, 'combat4', false,  'You just lost against the penguin and ', 'lost');
+            return;
+        }
+        if (!hover && square.hasClass('scroll')) {
+            whoIsActive();
+            extraPoints(playerActive, playerActiveDiv, scroll, 'scroll', true,  'You just did a seminar and got ', 'got');
+            return;
+        }
         if (square.hasClass('whiteBelt')) {
             changeWeapon(num, 'whiteBelt', whiteBelt);
             return;
@@ -306,9 +346,6 @@ function checkWeapon(num) {
     }
 }
 
-
-
-
 /*--------------------------------------------------------------------------------------------
 on click check if new between old position and new position there is an obstacle
 if there is return - dont let player move
@@ -320,7 +357,7 @@ change players and get their position
 check if pass over a weapon and if so leave old weapon and take new weapon
 call fight function to see if they can fight
 --------------------------------------------------------------------------------------------*/
-movePlayer();
+
 function movePlayer(){
     //mouseover the square to see if you want to go there
     $('.box').hover(
@@ -363,20 +400,7 @@ function movePlayer(){
             }
             if (newPos.y === oldPos.y && newPos.x <= oldPos.x + maxMoves && newPos.x >= oldPos.x - maxMoves
                 || newPos.x === oldPos.x && newPos.y <= oldPos.y + maxMoves && newPos.y >= oldPos.y - maxMoves) {
-                for (let i = Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++) {
-                    let num = getSquareValue(i, oldPos.y);
-                    let square = $('.box[boxID = ' + num + ']');
-                    if (square.hasClass('weapon')) {
-                        checkWeapon(num);
-                    }
-                }
-                for (let i = Math.min(oldPos.y, newPos.y); i <= Math.max(oldPos.y, newPos.y); i++) {
-                    let num = getSquareValue(oldPos.x, i);
-                    let square = $('.box[boxID = ' + num + ']');
-                    if (square.hasClass('weapon')) {
-                        checkWeapon(num);
-                    }
-                }
+
             if(player1Active){
                 $(this).css('backgroundImage', 'url('+player1Avatar.active+')');
 
@@ -502,8 +526,8 @@ function CanAttackAndDefend(playerActiveDiv, playerNotActiveDiv) {
 print message depending on which player is active
 --------------------------------------------------------------------------------------------*/
 function message(playerActiveDiv, playerNotActiveDiv, playerActive, playerNotActive) {
-    $(playerNotActiveDiv + ' .message').text(playerActive.name + ' just hit you with a round house kick. You just lost ' + playerActive.damage + ' points');
-    $(playerActiveDiv + ' .message').text('Way to go you just hit him good');
+    $(playerNotActiveDiv + ' .message').text(playerActive.name + ' just hit you  - ' + playerActive.damage + ' points');
+    $(playerActiveDiv + ' .message').text('And the fight begins');
 }
 /*--------------------------------------------------------------------------------------------
 if game is over set values depending on which player is active

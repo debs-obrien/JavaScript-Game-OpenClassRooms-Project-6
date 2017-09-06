@@ -78,9 +78,8 @@ li{
     float: left;
     margin-right: 1px;
     margin-bottom: 1px;
-    cursor: pointer;
     box-sizing: border-box;
-
+    cursor:pointer;
 }
 
 .player-avatar, .belt, .box{
@@ -89,8 +88,10 @@ li{
 }
 
 #board-game .obstacle{
-    background-image:url('../src/Stone.png');
+    background-image:url('../src/tree.png');
 }
+
+
 #board-game .weapon.blackBelt, .blackBelt{
     background-image:url('../src/Black_Ninja_Belt_icon.png');
 }
@@ -109,8 +110,17 @@ li{
 #board-game .weapon.whiteBelt, .whiteBelt{
     background-image:url('../src/White_Ninja_Belt_icon.png');
 }
-#board-game .seminar{
-    //background-image:url('../src/Yellow_Ninja_Belt_icon.png');
+#board-game .combat1{
+    background-image:url('../src/ninja-penguin.png');
+}
+#board-game .combat2{
+    background-image:url('../src/ninja-penguin-2.png');
+}
+#board-game .combat3{
+    background-image:url('../src/ninja-penguin-2.png');
+}
+#board-game .scroll{
+    background-image:url('../src/ninja-scroll.png');
 }
 #board-game .player1{
     background-image:url('../src/player1-not-active.png') !important;
@@ -131,6 +141,10 @@ li{
 #player-1 .belt, #player-2 .belt{
     width: 75px;
     height: 75px;
+}
+.player-container{
+    background-image:url('../src/scroll-bg4.png');
+    background-repeat:no-repeat;
 }
 .player-container button{
     color:#fff;
