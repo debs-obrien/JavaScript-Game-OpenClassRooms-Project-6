@@ -562,7 +562,7 @@ print message depending on which player is active
 --------------------------------------------------------------------------------------------*/
 function message(playerActiveDiv, playerNotActiveDiv, playerActive, playerNotActive) {
     $(playerNotActiveDiv + ' .message').text(playerActive.name + ' just hit you  - ' + playerActive.damage + ' points');
-    $(playerActiveDiv + ' .message').text('And the fight begins');
+    $(playerActiveDiv + ' .message').text('You just attacked');
 }
 
 /*--------------------------------------------------------------------------------------------
