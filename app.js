@@ -24,10 +24,11 @@ let defended = false;
 let player1Defended = false;
 let player2Defended = false;
 let hover = false;
+const attackButton = $('.attack');
+const defendButton = $('.defend')
 
-
-$('.attack').hide();
-$('.defend').hide();
+attackButton.hide();
+defendButton.hide();
 $('.player-container').hide();
 $('#board-game').hide();
 $('#game-over').hide();
@@ -670,20 +671,12 @@ function defend() {
 /*--------------------------------------------------------------------------------------------
 click buttons for attack and defend
 --------------------------------------------------------------------------------------------*/
+attackButton.on('click', function (e) {
+    attack(newPos, oldPos);
+    attacked = true;
+});
+defendButton.on('click', function (e) {
+    defend(newPos, oldPos);
+    defended = true;
+});
 
-$('#player-1 .attack').on('click', function (e) {
-    attack(newPos, oldPos);
-    attacked = true;
-});
-$('#player-1 .defend').on('click', function (e) {
-    defend(newPos, oldPos);
-    defended = true;
-});
-$('#player-2 .attack').on('click', function (e) {
-    attack(newPos, oldPos);
-    attacked = true;
-});
-$('#player-2 .defend').on('click', function (e) {
-    defend(newPos, oldPos);
-    defended = true;
-});
