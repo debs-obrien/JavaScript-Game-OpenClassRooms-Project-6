@@ -461,6 +461,7 @@ function movePlayer() {
             let num = getSquareValue(oldPos.x, i);
             let square = $('.box[boxID = ' + num + ']');
             if (square.hasClass('obstacle')) {
+                alert('you cant land on a tree');
                 return;
             }
 
@@ -509,7 +510,7 @@ function movePlayer() {
                     fight(newPos, oldPos);
                     player1Active = false;
 
-                } else {
+                }else {
                     playerPosition = getPosition('.player1');
                     oldPos = getXYPosition(playerPosition);
                     $('.player2').removeClass('player2');
