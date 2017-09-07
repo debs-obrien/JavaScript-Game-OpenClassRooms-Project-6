@@ -18,3 +18,5 @@
 
 #### By Debbie O'Brien
 5 September 2017
+
+![Game Screen Shot](http:src/game_screenshot.png)
