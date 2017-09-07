@@ -38,6 +38,7 @@ const playerNameDiv = $('.player-name');
 const winnerDiv = $('.winner');
 const player1AvatarDiv = $('#player-1-avatar');
 const player2AvatarDiv = $('#player-2-avatar');
+let computerPlay = false;
 
 
 attackButton.hide();
@@ -173,10 +174,10 @@ let player2Avatar = new Avatar('src/player2-active.png', 'src/player2-not-active
 /*--------------------------------------------------------------------------------------------
 Sets the player Data boxes
 --------------------------------------------------------------------------------------------*/
-function setPlayerData(playerDiv, player) {
+function setPlayerData(playerDiv, player, weapon) {
     $(playerDiv + ' .player-name').text(player.name);
     $(playerDiv + ' .score').text(player.score);
-    $(playerDiv + ' .belt').addClass(player.weapon);
+    $(playerDiv + ' .belt').removeClass().addClass('belt ' + player.weapon);
     $(playerDiv + ' .weapon-value').text(player.damage);
     player1AvatarDiv.css('backgroundImage', 'url(' + player1Avatar.active + ')');
     player2AvatarDiv.css('backgroundImage', 'url(' + player2Avatar.notActive + ')');
@@ -330,7 +331,7 @@ function checkWeapon(num) {
         }
         if (square.hasClass('scroll')) {
             whoIsActive();
-            extraPoints(playerActive, playerActiveDiv, scroll, 'scroll', true, 'You just did a seminar and got ', 'got');
+            extraPoints(playerActive, playerActiveDiv, scroll, 'scroll', true, 'You just did a seminar and ', 'got');
             return;
         }
         if (square.hasClass('whiteBelt')) {
@@ -442,7 +443,7 @@ function movePlayer() {
             let num = getSquareValue(i, oldPos.y);
             let square = $('.box[boxID = ' + num + ']');
             if (square.hasClass('obstacle')) {
-                alert('you cant land on a tree');
+                alert('you cant land on a tree or jump over it');
                 return;
             }
             if (player1Active) {
@@ -461,7 +462,7 @@ function movePlayer() {
             let num = getSquareValue(oldPos.x, i);
             let square = $('.box[boxID = ' + num + ']');
             if (square.hasClass('obstacle')) {
-                alert('you cant land on a tree');
+                alert('you cant land on a tree or jump over it');
                 return;
             }
 
@@ -510,6 +511,16 @@ function movePlayer() {
                     fight(newPos, oldPos);
                     player1Active = false;
 
+                }else if(computerPlay){
+                    //call function for computers turn.
+                    //while squreclaimed is false
+                    //if square is not valid return
+                    //while square is not claimed claim square
+                    //once its claimed change player
+                    //to calculate move - if square has weapon take square
+                    //else randomly move 3 spaces
+                    //set squareclaimed to true
+                    player1Active = true;
                 }else {
                     playerPosition = getPosition('.player1');
                     oldPos = getXYPosition(playerPosition);
