@@ -374,7 +374,8 @@ call fight function to see if they can fight
 
 function movePlayer() {
     //mouseover the square to see if you want to go there
-    $('.box').hover(
+    let boxClass = $('.box');
+    boxClass.hover(
         function () {
             hover = true;
             let sqHovered = $(this).attr('boxID');
@@ -432,26 +433,26 @@ function movePlayer() {
     );
 
 
-    $('.box').on('click', function (e) {
+    boxClass.on('click', function (e) {
         hover = false;
         let sqClicked = $(this).attr('boxID');
         newPos = getXYPosition(sqClicked);
-        if ($(this).hasClass(".obstacle")) {
-            return;
-        }
 
         for (let i = Math.min(oldPos.x, newPos.x); i <= Math.max(oldPos.x, newPos.x); i++) {
             let num = getSquareValue(i, oldPos.y);
             let square = $('.box[boxID = ' + num + ']');
             if (square.hasClass('obstacle')) {
+                alert('you cant land on a tree');
                 return;
             }
             if (player1Active) {
                 if (square.hasClass('player2')) {
+                    alert('you cant land on a player or pass over a player');
                     return;
                 }
             } else {
                 if (square.hasClass('player1')) {
+                    alert('you cant land on a player or pass over a player');
                     return;
                 }
             }
@@ -462,16 +463,31 @@ function movePlayer() {
             if (square.hasClass('obstacle')) {
                 return;
             }
+
             if (player1Active) {
                 if (square.hasClass('player2')) {
+                    alert('you cant land on a player or pass over a player');
                     return;
                 }
             } else {
                 if (square.hasClass('player1')) {
+                    alert('you cant land on a player or pass over a player');
                     return;
                 }
             }
         }
+        if (player1Active) {
+            if ($(this).hasClass('player1')){
+                alert('you must move');
+                return;
+            }
+        }else{
+            if ($(this).hasClass('player2')){
+                alert('you must move');
+                return;
+            }
+        }
+
 
         if (move) {
             if (newPos.y === oldPos.y && newPos.x <= oldPos.x + maxMoves && newPos.x >= oldPos.x - maxMoves
