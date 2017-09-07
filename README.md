@@ -19,4 +19,6 @@
 #### By Debbie O'Brien
 5 September 2017
 
-![Game Screen Shot](http:src/game_screenshot.png)
+https://debs-obrien.github.io/JavaScript-Game-OpenClassRooms-Project-6/
+
+![Screenshot](src/game_screenshot.png)
