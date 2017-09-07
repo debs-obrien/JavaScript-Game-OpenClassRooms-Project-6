@@ -25,19 +25,32 @@ let player1Defended = false;
 let player2Defended = false;
 let hover = false;
 const attackButton = $('.attack');
-const defendButton = $('.defend')
+const defendButton = $('.defend');
+const startButton = $('#start');
+const playAgainButton = $('#play-again');
+const boardGameDiv = $('#board-game');
+const gameOverDiv = $('#game-over');
+const startGameDiv = $('#start-game');
+const playerContainerDiv = $('.player-container');
+const body = $('body');
+const messageDiv = $('.message');
+const playerNameDiv = $('.player-name');
+const winnerDiv = $('.winner');
+const player1AvatarDiv = $('#player-1-avatar');
+const player2AvatarDiv = $('#player-2-avatar');
+
 
 attackButton.hide();
 defendButton.hide();
-$('.player-container').hide();
-$('#board-game').hide();
-$('#game-over').hide();
+playerContainerDiv.hide();
+boardGameDiv.hide();
+gameOverDiv.hide();
 
-$('#start').on('click', function (e) {
-    $('.player-container').show();
-    $('#board-game').show();
-    $('#start-game').hide();
-    $('body').css("background-color", "white")
+startButton.on('click', function (e) {
+    playerContainerDiv.show();
+    boardGameDiv.show();
+    startGameDiv.hide();
+    body.css("background-color", "white")
 });
 
 
@@ -90,7 +103,7 @@ function GameBoard(boardSize) {
 
 GameBoard.prototype.createBoard = function () {
     for (let i = 0; i <= boardSize; i += 1) {
-        $('#board-game').append('<li class="box" boxID="' + i + '"></li>');
+        boardGameDiv.append('<li class="box" boxID="' + i + '"></li>');
         let numSquares = $('.box').length;
         squares.push(numSquares);
     }
@@ -165,8 +178,8 @@ function setPlayerData(playerDiv, player) {
     $(playerDiv + ' .score').text(player.score);
     $(playerDiv + ' .belt').addClass(player.weapon);
     $(playerDiv + ' .weapon-value').text(player.damage);
-    $('#player-1-avatar').css('backgroundImage', 'url(' + player1Avatar.active + ')');
-    $('#player-2-avatar').css('backgroundImage', 'url(' + player2Avatar.notActive + ')');
+    player1AvatarDiv.css('backgroundImage', 'url(' + player1Avatar.active + ')');
+    player2AvatarDiv.css('backgroundImage', 'url(' + player2Avatar.notActive + ')');
 }
 
 /*--------------------------------------------------------------------------------------------
@@ -200,12 +213,12 @@ movePlayer();
 /*--------------------------------------------------------------------------------------------
 When game is over click play again and reset values to create new board and play again
 --------------------------------------------------------------------------------------------*/
-$('#play-again').on('click', function (e) {
-    $('.message').removeClass('win');
-    $('body').css('background-color', '#fff');
-    $('#game-over').hide();
-    $('.player-container').show().css('background-color', '#fff');
-    $('#board-game').show();
+playAgainButton.on('click', function (e) {
+    messageDiv.removeClass('win');
+    body.css('background-color', '#fff');
+    gameOverDiv.hide();
+    playerContainerDiv.show().css('background-color', '#fff');
+    boardGameDiv.show();
     player1 = new Player('Player 1', 100, 'player1', 1, 'whiteBelt', 10);
     player2 = new Player('Player 2', 100, 'player2', 2, 'whiteBelt', 10);
     player1Active = true;
@@ -216,7 +229,7 @@ $('#play-again').on('click', function (e) {
     player2Defended = false;
     $(playerNotActiveDiv + ' .message').text('');
     $(playerActiveDiv + ' .message').text('');
-    $('.player-name').css('color', '');
+    playerNameDiv.css('color', '');
     $('.player-avatar').css('width', '75px').css('height', '75px');
     loadGame();
     playerPosition = getPosition('.player1');
@@ -552,12 +565,12 @@ function gameOver(playerActiveDiv, playerNotActiveDiv, playerActive, playerNotAc
         $(playerActiveDiv + ' .player-avatar').css('backgroundImage', 'url(' + player1Avatar.win + ')').css('width', '150px').css('height', '150px');
     }
     $('.box').remove();
-    $('#board-game').hide();
-    $('#game-over').show();
-    $('body').css('background-color', '#ff6666');
-    $('.player-name').css('color', '#fff');
-    $('.message').addClass('win');
-    $('.winner').text(playerActive.name + ' you are the WINNER');
+    boardGameDiv.hide();
+    gameOverDiv.show();
+    body.css('background-color', '#ff6666');
+    playerNameDiv.css('color', '#fff');
+    messageDiv.addClass('win');
+    winnerDiv.text(playerActive.name + ' you are the WINNER');
 }
 
 /*--------------------------------------------------------------------------------------------
@@ -630,8 +643,8 @@ function attack() {
         changeScore(playerNotActiveDiv, playerActive, playerNotActive);
         CanAttackAndDefend(playerActiveDiv, playerNotActiveDiv);
         message(playerActiveDiv, playerNotActiveDiv, playerActive, playerNotActive);
-        $('#player-1-avatar').css('backgroundImage', 'url(' + player1Avatar.attack + ')');
-        $('#player-2-avatar').css('backgroundImage', 'url(' + player2Avatar.attack + ')');
+        player1AvatarDiv.css('backgroundImage', 'url(' + player1Avatar.attack + ')');
+        player2AvatarDiv.css('backgroundImage', 'url(' + player2Avatar.attack + ')');
         if (player1Active) {
             player1Defended = false;
             player1Active = false;
