@@ -3,6 +3,10 @@ body {
     font-family: "Montserrat", sans-serif;
 }
 
+#game-over, #board-game, .player-container{
+    display:none;
+}
+
 button {
     cursor: pointer;
 }

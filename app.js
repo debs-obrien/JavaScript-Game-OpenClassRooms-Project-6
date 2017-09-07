@@ -129,16 +129,13 @@ function Player(name, score, itemClass, player, weapon, damage) {
 Player.prototype.add = function () {
     addItem(this.itemClass, this.player);
 };
-
 function Avatar(active, notActive, attack, win, dead) {
     this.active = active;
     this.notActive = notActive;
     this.attack = attack;
     this.win = win;
     this.dead = dead;
-
 }
-
 /*--------------------------------------------------------------------------------------------
 Creates the weapons and players
 --------------------------------------------------------------------------------------------*/
@@ -207,7 +204,6 @@ $('#play-again').on('click', function (e) {
     $('body').css('background-color', '#fff');
     $('#game-over').hide();
     $('.player-container').show().css('background-color', '#fff');
-    ;
     $('#board-game').show();
     player1 = new Player('Player 1', 100, 'player1', 1, 'whiteBelt', 10);
     player2 = new Player('Player 2', 100, 'player2', 2, 'whiteBelt', 10);
