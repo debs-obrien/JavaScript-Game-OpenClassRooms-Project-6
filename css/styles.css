@@ -10,6 +10,9 @@ body {
 button {
     cursor: pointer;
 }
+.buttons button{
+    width: 50%;
+}
 
 #start-game, #game-over {
     margin: 0 auto;
