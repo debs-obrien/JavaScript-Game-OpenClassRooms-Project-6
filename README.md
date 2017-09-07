@@ -20,12 +20,12 @@
 5 September 2017
 
 
-###Play the Game by clicking the link
+### Play the Game by clicking the link
 https://debs-obrien.github.io/JavaScript-Game-OpenClassRooms-Project-6/
 
 ![Screenshot](src/game_screenshot.png)
 
-###Example Code
+### Example Code
 ```javascript
 function Avatar(active, notActive, attack, win, dead) {
     this.active = active;
