@@ -39,7 +39,10 @@ const winnerDiv = $('.winner');
 const player1AvatarDiv = $('#player-1-avatar');
 const player2AvatarDiv = $('#player-2-avatar');
 let computerPlay = false;
-
+const alertMove = 'That square is not a valid move. You can only move a max of 3 spaces vertical or horizontal You cant land on a tree or jump over it. Is it even your go?';
+const alertPlayer = 'you cant land on a player or pass over a player';
+const alertAttackDefend ='you must attack or defend';
+const alertMustMove = 'you must move';
 
 attackButton.hide();
 defendButton.hide();
@@ -433,6 +436,14 @@ function movePlayer() {
         }
     );
 
+    function alertMessage(message){
+        if(move){
+            alert(message);
+        }else{
+            alert(alertAttackDefend);
+        }
+    }
+
 
     boxClass.on('click', function (e) {
         hover = false;
@@ -443,17 +454,17 @@ function movePlayer() {
             let num = getSquareValue(i, oldPos.y);
             let square = $('.box[boxID = ' + num + ']');
             if (square.hasClass('obstacle')) {
-                alert('That square is not a valid move. You cant land on a tree or jump over it. Is it even your go?');
+                alertMessage(alertMove);
                 return;
             }
             if (player1Active) {
                 if (square.hasClass('player2')) {
-                    alert('you cant land on a player or pass over a player');
+                    alertMessage(alertPlayer);
                     return;
                 }
             } else {
                 if (square.hasClass('player1')) {
-                    alert('you cant land on a player or pass over a player');
+                    alertMessage(alertPlayer);
                     return;
                 }
             }
@@ -462,30 +473,30 @@ function movePlayer() {
             let num = getSquareValue(oldPos.x, i);
             let square = $('.box[boxID = ' + num + ']');
             if (square.hasClass('obstacle')) {
-                alert('That square is not a valid move. You cant land on a tree or jump over it. Is it even your go?');
+                alertMessage(alertMove);
                 return;
             }
 
             if (player1Active) {
                 if (square.hasClass('player2')) {
-                    alert('you cant land on a player or pass over a player');
+                    alertMessage(alertPlayer);
                     return;
                 }
             } else {
                 if (square.hasClass('player1')) {
-                    alert('you cant land on a player or pass over a player');
+                    alertMessage(alertPlayer);
                     return;
                 }
             }
         }
         if (player1Active) {
             if ($(this).hasClass('player1')){
-                alert('you must move');
+                alertMessage(alertMustMove);
                 return;
             }
         }else{
             if ($(this).hasClass('player2')){
-                alert('you must move');
+                alertMessage(alertMustMove);
                 return;
             }
         }
