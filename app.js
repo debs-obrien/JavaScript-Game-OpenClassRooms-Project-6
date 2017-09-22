@@ -443,7 +443,7 @@ function movePlayer() {
             let num = getSquareValue(i, oldPos.y);
             let square = $('.box[boxID = ' + num + ']');
             if (square.hasClass('obstacle')) {
-                alert('you cant land on a tree or jump over it');
+                alert('That square is not a valid move. You cant land on a tree or jump over it. Is it even your go?');
                 return;
             }
             if (player1Active) {
@@ -462,7 +462,7 @@ function movePlayer() {
             let num = getSquareValue(oldPos.x, i);
             let square = $('.box[boxID = ' + num + ']');
             if (square.hasClass('obstacle')) {
-                alert('you cant land on a tree or jump over it');
+                alert('That square is not a valid move. You cant land on a tree or jump over it. Is it even your go?');
                 return;
             }
 
@@ -566,7 +566,6 @@ function CanAttackAndDefend(playerActiveDiv, playerNotActiveDiv) {
     $(playerActiveDiv + ' .attack').hide();
     $(playerActiveDiv + ' .defend').hide();
 }
-
 
 /*--------------------------------------------------------------------------------------------
 print message depending on which player is active
