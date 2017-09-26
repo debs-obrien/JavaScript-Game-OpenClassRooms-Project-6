@@ -16,6 +16,7 @@ gameOverDiv.hide();
 
 startButton.on('click', function (e) {
     playerContainerDiv.show();
+    playerContainerDiv.css('display', 'flex');
     boardGameDiv.show();
     startGameDiv.hide();
     body.css("background-color", "white")
