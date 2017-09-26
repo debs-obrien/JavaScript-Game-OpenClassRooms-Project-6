@@ -68,7 +68,7 @@ li {
 
 .player-container {
     width: 200px;
-    
+    min-width:200px;
     text-align: center;
     flex-direction: column;
     height: 600px;
@@ -106,8 +106,7 @@ li {
 }
 
 .player-avatar, .belt, .box {
-    background-repeat: no-repeat;
-    background-position: center;
+    background: no-repeat center;
 }
 
 #board-game .obstacle {
@@ -179,8 +178,7 @@ li {
 }
 
 .player-container {
-    background-image: url('../src/scroll-bg4.png');
-    background-repeat: no-repeat;
+    background: url('../src/scroll-bg4.png') no-repeat;
 }
 
 .player-container button {
