@@ -1,0 +1,31 @@
+{
+  "name": "js_game_project_6",
+  "version": "1.0.0",
+  "description": "javascript game",
+  "main": "index.html",
+  "scripts": {
+    "test": "none"
+  },
+  "keywords": [
+    "javascript",
+    "jquery"
+  ],
+  "author": "Debbie O'Brien",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-util": "^3.0.8",
+    "gulp-cache": "^0.4.6",
+    "gulp-clean-css": "^3.7.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "^3.3.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.6.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-uglify": "^3.0.0",
+    "gulp-useref": "^3.1.2",
+    "run-sequence": "^2.1.0"
+  },
+  "dependencies": {}
+}
