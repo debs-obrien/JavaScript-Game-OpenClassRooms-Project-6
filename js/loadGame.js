@@ -11,7 +11,7 @@ if it does take it out of the remaining squares array and add the correct class 
 then make empty equal to false to stop the while loop
 --------------------------------------------------------------------------------------------*/
 function addItem(itemClass, player) {
-    let remainingSquares = squares;
+    squares = [];
     let boxes = $('.box');
     let empty = true;
     while (empty) {
