@@ -196,8 +196,9 @@ function movePlayer() {
                 if (player1Active) {
                     playerPosition = getPosition('.player2');
                     oldPos = getXYPosition(playerPosition);
-                    $('.player1').removeClass('player1');
+                    $('.player1').removeClass('player1').removeClass('active');
                     $(this).addClass("player1");
+                    $('.player2').addClass('active');
                     fight(newPos, oldPos);
                     player1Active = false;
 
@@ -214,8 +215,9 @@ function movePlayer() {
                 }else {
                     playerPosition = getPosition('.player1');
                     oldPos = getXYPosition(playerPosition);
-                    $('.player2').removeClass('player2');
+                    $('.player2').removeClass('player2').removeClass('active');
                     $(this).addClass("player2");
+                    $('.player1').addClass('active');
                     fight(newPos, oldPos);
                     player1Active = true;
                 }
@@ -231,8 +233,8 @@ function GetPlayerActive(Active, NotActive, ActiveDiv, NotActiveDiv, activeAvata
     playerNotActive = NotActive;
     playerActiveDiv = ActiveDiv;
     playerNotActiveDiv = NotActiveDiv;
-    $(NotActiveDiv + ' .player-avatar').css('backgroundImage', 'url(' + activeAvatar + ')')
-    $(ActiveDiv + ' .player-avatar').css('backgroundImage', 'url(' + notActiveAvatar + ')')
+    $(NotActiveDiv + ' .player-avatar').css('backgroundImage', 'url(' + activeAvatar + ')');
+    $(ActiveDiv + ' .player-avatar').css('backgroundImage', 'url(' + notActiveAvatar + ')');
 }
 
 /*--------------------------------------------------------------------------------------------

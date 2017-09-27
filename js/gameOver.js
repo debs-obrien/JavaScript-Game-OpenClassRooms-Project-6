@@ -6,7 +6,6 @@ playAgainButton.on('click', function (e) {
     messageDiv.removeClass('win');
     body.css('background-color', '#fff');
     gameOverDiv.hide();
-    playerContainerDiv.show().css('background-color', '#fff');
     boardGameDiv.show();
     player1 = new Player('Player 1', 100, 'player1', 1, 'whiteBelt', 10);
     player2 = new Player('Player 2', 100, 'player2', 2, 'whiteBelt', 10);

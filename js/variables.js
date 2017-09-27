@@ -1,8 +1,8 @@
 'use strict';
 const boardSize = 89;
 const numObstacles = 10;
-const squares = [];
-const remainingSquares = squares;
+let squares = [];
+let remainingSquares = squares;
 let maxMoves = 3;
 let newPos;
 let playerActive;

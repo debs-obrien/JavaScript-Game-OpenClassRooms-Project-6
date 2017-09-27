@@ -11,7 +11,8 @@ if it does take it out of the remaining squares array and add the correct class 
 then make empty equal to false to stop the while loop
 --------------------------------------------------------------------------------------------*/
 function addItem(itemClass, player) {
-    let squares = $('.box');
+    let remainingSquares = squares;
+    let boxes = $('.box');
     let empty = true;
     while (empty) {
         let item = getRandom(boardSize);
@@ -24,7 +25,7 @@ function addItem(itemClass, player) {
             criteria = (item % 10 !== 0 && item % 10 !== 9);
         }
         if (criteria && remainingSquares.includes(item)) {
-            squares.eq(item).addClass(itemClass);
+            boxes.eq(item).addClass(itemClass);
             let index = remainingSquares.indexOf(item);
             remainingSquares.splice(index, 1);
             empty = false;
@@ -55,5 +56,5 @@ function loadGame() {
     scroll.add();
     setPlayerData('#player-1', player1);
     setPlayerData('#player-2', player2);
-
+    $('.player1').addClass('active');
 }

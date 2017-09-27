@@ -160,9 +160,15 @@ li {
 #board-game .player2 {
     background-image: url('../src/player2.png') !important;
 }
+#board-game .player1.active {
+    background-image: url('../src/player1-active.png') !important;
+}
+
+#board-game .player2.active {
+    background-image: url('../src/player2-active.png') !important;
+}
 
 #player-1, #player-2 {
-/ / border: 1 px solid black;
     padding: 20px;
 }
 
@@ -230,4 +236,16 @@ li {
 
 #player-1 .score, #player-2 .score {
     font-size: 1.4em;
+}
+
+.element {
+    animation:
+            stretch
+            1.5s
+            ease-out
+            0s
+            alternate
+            infinite
+            none
+            running;
 }

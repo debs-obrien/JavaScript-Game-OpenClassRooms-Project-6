@@ -14,7 +14,7 @@ playerContainerDiv.hide();
 boardGameDiv.hide();
 gameOverDiv.hide();
 
-startButton.on('click', function (e) {
+startButton.on('click', function () {
     playerContainerDiv.show();
     playerContainerDiv.css('display', 'flex');
     boardGameDiv.show();
@@ -146,9 +146,11 @@ function attack() {
         player1AvatarDiv.css('backgroundImage', 'url(' + player1Avatar.attack + ')');
         player2AvatarDiv.css('backgroundImage', 'url(' + player2Avatar.attack + ')');
         if (player1Active) {
+            activeClass('.player1', '.player2');
             player1Defended = false;
             player1Active = false;
         } else {
+            activeClass('.player2', '.player1');
             player2Defended = false;
             player1Active = true;
         }
@@ -156,6 +158,10 @@ function attack() {
             gameOver(playerActiveDiv, playerNotActiveDiv, playerActive, playerNotActive)
         }
     }
+}
+function activeClass(playerActiveClass, playerNotActiveClass){
+    $(playerActiveClass).removeClass('active');
+    $(playerNotActiveClass).addClass('active');
 }
 
 /*--------------------------------------------------------------------------------------------
@@ -166,9 +172,11 @@ function defend() {
     defended = true;
     whoIsActive();
     if (player1Active) {
+        activeClass('.player1', '.player2');
         player1Defended = true;
         player1Active = false;
     } else {
+        activeClass('.player2', '.player1');
         player2Defended = true;
         player1Active = true;
     }
@@ -184,11 +192,11 @@ function defend() {
 /*--------------------------------------------------------------------------------------------
 click buttons for attack and defend
 --------------------------------------------------------------------------------------------*/
-attackButton.on('click', function (e) {
+attackButton.on('click', function () {
     attack(newPos, oldPos);
     attacked = true;
 });
-defendButton.on('click', function (e) {
+defendButton.on('click', function () {
     defend(newPos, oldPos);
     defended = true;
 });

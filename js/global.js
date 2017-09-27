@@ -1,8 +1,8 @@
 'use strict';
 const boardSize = 89;
 const numObstacles = 10;
-const squares = [];
-const remainingSquares = squares;
+let squares = [];
+let remainingSquares = squares;
 let maxMoves = 3;
 let newPos;
 let playerActive;
@@ -259,8 +259,9 @@ function movePlayer() {
                 if (player1Active) {
                     playerPosition = getPosition('.player2');
                     oldPos = getXYPosition(playerPosition);
-                    $('.player1').removeClass('player1');
+                    $('.player1').removeClass('player1').removeClass('active');
                     $(this).addClass("player1");
+                    $('.player2').addClass('active');
                     fight(newPos, oldPos);
                     player1Active = false;
 
@@ -277,8 +278,9 @@ function movePlayer() {
                 }else {
                     playerPosition = getPosition('.player1');
                     oldPos = getXYPosition(playerPosition);
-                    $('.player2').removeClass('player2');
+                    $('.player2').removeClass('player2').removeClass('active');
                     $(this).addClass("player2");
+                    $('.player1').addClass('active');
                     fight(newPos, oldPos);
                     player1Active = true;
                 }
@@ -294,8 +296,8 @@ function GetPlayerActive(Active, NotActive, ActiveDiv, NotActiveDiv, activeAvata
     playerNotActive = NotActive;
     playerActiveDiv = ActiveDiv;
     playerNotActiveDiv = NotActiveDiv;
-    $(NotActiveDiv + ' .player-avatar').css('backgroundImage', 'url(' + activeAvatar + ')')
-    $(ActiveDiv + ' .player-avatar').css('backgroundImage', 'url(' + notActiveAvatar + ')')
+    $(NotActiveDiv + ' .player-avatar').css('backgroundImage', 'url(' + activeAvatar + ')');
+    $(ActiveDiv + ' .player-avatar').css('backgroundImage', 'url(' + notActiveAvatar + ')');
 }
 
 /*--------------------------------------------------------------------------------------------
@@ -448,7 +450,8 @@ if it does take it out of the remaining squares array and add the correct class 
 then make empty equal to false to stop the while loop
 --------------------------------------------------------------------------------------------*/
 function addItem(itemClass, player) {
-    let squares = $('.box');
+    let remainingSquares = squares;
+    let boxes = $('.box');
     let empty = true;
     while (empty) {
         let item = getRandom(boardSize);
@@ -461,7 +464,7 @@ function addItem(itemClass, player) {
             criteria = (item % 10 !== 0 && item % 10 !== 9);
         }
         if (criteria && remainingSquares.includes(item)) {
-            squares.eq(item).addClass(itemClass);
+            boxes.eq(item).addClass(itemClass);
             let index = remainingSquares.indexOf(item);
             remainingSquares.splice(index, 1);
             empty = false;
@@ -492,7 +495,7 @@ function loadGame() {
     scroll.add();
     setPlayerData('#player-1', player1);
     setPlayerData('#player-2', player2);
-
+    $('.player1').addClass('active');
 }
 'use strict';
 /*--------------------------------------------------------------------------------------------
@@ -510,7 +513,7 @@ playerContainerDiv.hide();
 boardGameDiv.hide();
 gameOverDiv.hide();
 
-startButton.on('click', function (e) {
+startButton.on('click', function () {
     playerContainerDiv.show();
     playerContainerDiv.css('display', 'flex');
     boardGameDiv.show();
@@ -642,9 +645,11 @@ function attack() {
         player1AvatarDiv.css('backgroundImage', 'url(' + player1Avatar.attack + ')');
         player2AvatarDiv.css('backgroundImage', 'url(' + player2Avatar.attack + ')');
         if (player1Active) {
+            activeClass('.player1', '.player2');
             player1Defended = false;
             player1Active = false;
         } else {
+            activeClass('.player2', '.player1');
             player2Defended = false;
             player1Active = true;
         }
@@ -652,6 +657,10 @@ function attack() {
             gameOver(playerActiveDiv, playerNotActiveDiv, playerActive, playerNotActive)
         }
     }
+}
+function activeClass(playerActiveClass, playerNotActiveClass){
+    $(playerActiveClass).removeClass('active');
+    $(playerNotActiveClass).addClass('active');
 }
 
 /*--------------------------------------------------------------------------------------------
@@ -662,9 +671,11 @@ function defend() {
     defended = true;
     whoIsActive();
     if (player1Active) {
+        activeClass('.player1', '.player2');
         player1Defended = true;
         player1Active = false;
     } else {
+        activeClass('.player2', '.player1');
         player2Defended = true;
         player1Active = true;
     }
@@ -680,11 +691,11 @@ function defend() {
 /*--------------------------------------------------------------------------------------------
 click buttons for attack and defend
 --------------------------------------------------------------------------------------------*/
-attackButton.on('click', function (e) {
+attackButton.on('click', function () {
     attack(newPos, oldPos);
     attacked = true;
 });
-defendButton.on('click', function (e) {
+defendButton.on('click', function () {
     defend(newPos, oldPos);
     defended = true;
 });
@@ -698,7 +709,6 @@ playAgainButton.on('click', function (e) {
     messageDiv.removeClass('win');
     body.css('background-color', '#fff');
     gameOverDiv.hide();
-    playerContainerDiv.show().css('background-color', '#fff');
     boardGameDiv.show();
     player1 = new Player('Player 1', 100, 'player1', 1, 'whiteBelt', 10);
     player2 = new Player('Player 2', 100, 'player2', 2, 'whiteBelt', 10);
