@@ -28,8 +28,8 @@ gulp.task("concatJS", function(){
             "js/players.js",
             "js/weapons.js",
             "js/loadGame.js",
-            "js/gameOver.js",
-            "js/app.js"])
+
+            "js/app.js","js/gameOver.js"])
 
         .pipe(maps.init())
         .pipe(concat('global.js'))
@@ -75,7 +75,7 @@ gulp.task('images', function(){
  then replaces all references to the images folder with content folder
  add the html to the dist folder
  ---------------------------------------------------------------------------------------*/
-gulp.task('html',['scripts', 'styles'], function(){
+gulp.task('html', function(){
     return gulp.src('index.html')
         .pipe(useref())
         .pipe(replace('src/', 'src/'))
