@@ -167,6 +167,19 @@ li {
 #board-game .player2.active {
     background-image: url('../src/player2-active.png') !important;
 }
+#board-game .player1.attack {
+    background-image: url('../src/player1-attack.png') !important;
+}
+
+#board-game .player2.attack {
+    background-image: url('../src/player2-attack.png') !important;
+}
+.flip-image{
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
 
 #player-1, #player-2 {
     padding: 20px;
@@ -236,16 +249,4 @@ li {
 
 #player-1 .score, #player-2 .score {
     font-size: 1.4em;
-}
-
-.element {
-    animation:
-            stretch
-            1.5s
-            ease-out
-            0s
-            alternate
-            infinite
-            none
-            running;
 }

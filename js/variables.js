@@ -2,7 +2,7 @@
 const boardSize = 89;
 const numObstacles = 10;
 let squares = [];
-let remainingSquares = squares;
+
 let maxMoves = 3;
 let newPos;
 let playerActive;

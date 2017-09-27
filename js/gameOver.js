@@ -2,7 +2,8 @@
 /*--------------------------------------------------------------------------------------------
 When game is over click play again and reset values to create new board and play again
 --------------------------------------------------------------------------------------------*/
-playAgainButton.on('click', function (e) {
+playAgainButton.on('click', function () {
+    squares = [];
     messageDiv.removeClass('win');
     body.css('background-color', '#fff');
     gameOverDiv.hide();

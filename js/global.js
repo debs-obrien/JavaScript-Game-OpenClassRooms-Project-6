@@ -2,7 +2,7 @@
 const boardSize = 89;
 const numObstacles = 10;
 let squares = [];
-let remainingSquares = squares;
+
 let maxMoves = 3;
 let newPos;
 let playerActive;
@@ -450,7 +450,7 @@ if it does take it out of the remaining squares array and add the correct class 
 then make empty equal to false to stop the while loop
 --------------------------------------------------------------------------------------------*/
 function addItem(itemClass, player) {
-    squares = [];
+    let remainingSquares = squares;
     let boxes = $('.box');
     let empty = true;
     while (empty) {
@@ -554,6 +554,10 @@ function getSquareValue(xPos, yPos) {
     return yPos * 10 + xPos;
 }
 
+function flipImage(playerClass){
+    playerClass.addClass('flip-image')
+}
+
 /*--------------------------------------------------------------------------------------------
 if player can attack and defend show buttons depending on which player is active
 --------------------------------------------------------------------------------------------*/
@@ -601,6 +605,11 @@ function fight(newPos, oldPos) {
             let square = $('.box[boxID = ' + num + ']');
             if (player1Active) {
                 if (square.hasClass('player2')) {
+                    let player1Square = $('.player1');
+                    if($('.player2').attr('boxId') < player1Square.attr('boxId')){
+                        flipImage(square);
+                        flipImage(player1Square);
+                    }
                     attacked = true;
                     attack(newPos, oldPos);
                     return;
@@ -608,6 +617,11 @@ function fight(newPos, oldPos) {
 
             } else {
                 if (square.hasClass('player1')) {
+                    let player2Square = $('.player2');
+                    if($('.player1').attr('boxId') > player2Square.attr('boxId')){
+                        flipImage(square);
+                        flipImage(player2Square);
+                    }
                     attacked = true;
                     attack(newPos, oldPos);
                     return;
@@ -659,8 +673,9 @@ function attack() {
     }
 }
 function activeClass(playerActiveClass, playerNotActiveClass){
-    $(playerActiveClass).removeClass('active');
-    $(playerNotActiveClass).addClass('active');
+    $(playerNotActiveClass).removeClass('active');
+    $(playerActiveClass).removeClass('attack');
+    $(playerNotActiveClass).addClass('attack');
 }
 
 /*--------------------------------------------------------------------------------------------
@@ -705,7 +720,8 @@ defendButton.on('click', function () {
 /*--------------------------------------------------------------------------------------------
 When game is over click play again and reset values to create new board and play again
 --------------------------------------------------------------------------------------------*/
-playAgainButton.on('click', function (e) {
+playAgainButton.on('click', function () {
+    squares = [];
     messageDiv.removeClass('win');
     body.css('background-color', '#fff');
     gameOverDiv.hide();

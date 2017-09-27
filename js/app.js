@@ -55,6 +55,10 @@ function getSquareValue(xPos, yPos) {
     return yPos * 10 + xPos;
 }
 
+function flipImage(playerClass){
+    playerClass.addClass('flip-image')
+}
+
 /*--------------------------------------------------------------------------------------------
 if player can attack and defend show buttons depending on which player is active
 --------------------------------------------------------------------------------------------*/
@@ -102,6 +106,11 @@ function fight(newPos, oldPos) {
             let square = $('.box[boxID = ' + num + ']');
             if (player1Active) {
                 if (square.hasClass('player2')) {
+                    let player1Square = $('.player1');
+                    if($('.player2').attr('boxId') < player1Square.attr('boxId')){
+                        flipImage(square);
+                        flipImage(player1Square);
+                    }
                     attacked = true;
                     attack(newPos, oldPos);
                     return;
@@ -109,6 +118,11 @@ function fight(newPos, oldPos) {
 
             } else {
                 if (square.hasClass('player1')) {
+                    let player2Square = $('.player2');
+                    if($('.player1').attr('boxId') > player2Square.attr('boxId')){
+                        flipImage(square);
+                        flipImage(player2Square);
+                    }
                     attacked = true;
                     attack(newPos, oldPos);
                     return;
@@ -160,8 +174,9 @@ function attack() {
     }
 }
 function activeClass(playerActiveClass, playerNotActiveClass){
-    $(playerActiveClass).removeClass('active');
-    $(playerNotActiveClass).addClass('active');
+    $(playerNotActiveClass).removeClass('active');
+    $(playerActiveClass).removeClass('attack');
+    $(playerNotActiveClass).addClass('attack');
 }
 
 /*--------------------------------------------------------------------------------------------
