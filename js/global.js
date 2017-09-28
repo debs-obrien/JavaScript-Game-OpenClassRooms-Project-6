@@ -104,8 +104,16 @@ function setPlayerData(playerDiv, player, weapon) {
     player1AvatarDiv.css('backgroundImage', 'url(' + player1Avatar.active + ')');
     player2AvatarDiv.css('backgroundImage', 'url(' + player2Avatar.notActive + ')');
 }
-
-
+/*--------------------------------------------------------------------------------------------
+Creates the alert Message
+--------------------------------------------------------------------------------------------*/
+function alertMessage(message){
+    if(move){
+        alert(message);
+    }else{
+        alert(alertAttackDefend);
+    }
+}
 /*--------------------------------------------------------------------------------------------
 on click check if new between old position and new position there is an obstacle
 if there is return - dont let player move
@@ -178,16 +186,7 @@ function movePlayer() {
         }
     );
 
-    function alertMessage(message){
-        if(move){
-            alert(message);
-        }else{
-            alert(alertAttackDefend);
-        }
-    }
-
-
-    boxClass.on('click', function (e) {
+    boxClass.on('click', function () {
         hover = false;
         let sqClicked = $(this).attr('boxID');
         newPos = getXYPosition(sqClicked);

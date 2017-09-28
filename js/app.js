@@ -77,8 +77,6 @@ function message(playerActiveDiv, playerNotActiveDiv, playerActive, playerNotAct
     $(playerActiveDiv + ' .message').text('You just attacked');
 }
 
-
-
 /*--------------------------------------------------------------------------------------------
 if player can only attack show attack button and hide defend depending on which player is active
 --------------------------------------------------------------------------------------------*/
