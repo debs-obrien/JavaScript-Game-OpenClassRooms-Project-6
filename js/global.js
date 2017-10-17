@@ -2,7 +2,6 @@
 const boardSize = 89;
 const numObstacles = 10;
 let squares = [];
-
 let maxMoves = 3;
 let newPos;
 let playerActive;
@@ -574,8 +573,6 @@ function message(playerActiveDiv, playerNotActiveDiv, playerActive, playerNotAct
     $(playerNotActiveDiv + ' .message').text(playerActive.name + ' just hit you  - ' + playerActive.damage + ' points');
     $(playerActiveDiv + ' .message').text('You just attacked');
 }
-
-
 
 /*--------------------------------------------------------------------------------------------
 if player can only attack show attack button and hide defend depending on which player is active

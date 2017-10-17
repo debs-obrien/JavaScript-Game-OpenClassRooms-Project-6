@@ -1,18 +1,17 @@
-const gulp  = require('gulp');
-const    gutil = require('gulp-util');
+const gulp = require('gulp');
+const gutil = require('gulp-util');
 const babel = require('gulp-babel');
 const concat = require('gulp-concat');
-const    uglify = require('gulp-uglify');
-const    cleanCSS = require('gulp-clean-css');
-const   rename = require('gulp-rename');
-const  maps = require('gulp-sourcemaps');
-const   useref = require('gulp-useref');
-const   imagemin = require('gulp-imagemin');
-const   cache = require('gulp-cache');
-const   replace = require('gulp-replace');
-const del = require ('del');
+const uglify = require('gulp-uglify');
+const cleanCSS = require('gulp-clean-css');
+const rename = require('gulp-rename');
+const maps = require('gulp-sourcemaps');
+const useref = require('gulp-useref');
+const imagemin = require('gulp-imagemin');
+const cache = require('gulp-cache');
+const replace = require('gulp-replace');
+const del = require('del');
 const runSequence = require('run-sequence');
-const gulpSequence = require('gulp-sequence');
 
 const paths = {
     src: '',
@@ -23,14 +22,15 @@ Get js files, create sourcemap, concatanate to global.js
 minify global.js and rename it all.min.js and put in js folder
 ---------------------------------------------------------------------------------------*/
 gulp.task("concatJS", function(){
-    return gulp.src(["js/variables.js",
+    return gulp.src([
+            "js/variables.js",
             "js/game.js",
             "js/players.js",
             "js/weapons.js",
             "js/loadGame.js",
-
-            "js/app.js","js/gameOver.js"])
-
+            "js/app.js",
+            "js/gameOver.js"
+            ])
         .pipe(maps.init())
         .pipe(concat('global.js'))
         .pipe(maps.write('./'))
@@ -42,7 +42,9 @@ gulp.task('scripts', ['concatJS'], function(){
             presets: ['env']
         }))
         .pipe(uglify())
-        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+        .on('error', function (err) {
+            gutil.log(gutil.colors.red('[Error]'), err.toString());
+        })
         .pipe(rename('all.min.js'))
         .pipe(gulp.dest(`${paths.dist}/scripts`))
 });
@@ -59,7 +61,7 @@ gulp.task('styles',  function(){
 });
 
 /* ---------------------------------------------------------------------------------------
- minifiy images using cache and add to folder called content in dist
+ minify images using cache and add to folder called content in dist
  ---------------------------------------------------------------------------------------*/
 gulp.task('images', function(){
     return gulp.src('src/*.+(png|jpg)')
@@ -95,7 +97,6 @@ gulp.task('clean', function(){
  finally run the html to change the routes of images and name of minfified files
  ---------------------------------------------------------------------------------------*/
 
-
 gulp.task('build', ['clean'], (callback) => {
     runSequence('html', 'scripts', 'images', 'styles', callback);
 });
@@ -104,3 +105,4 @@ gulp.task('build', ['clean'], (callback) => {
  by typing gulp run build
  ---------------------------------------------------------------------------------------*/
 
+gulp.task('default', ['build']);
